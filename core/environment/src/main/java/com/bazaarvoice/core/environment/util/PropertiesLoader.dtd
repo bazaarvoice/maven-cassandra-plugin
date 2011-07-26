@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Extended DTD for properties, based on http://java.sun.com/dtd/properties.dtd
+  but containing additional features such as:
+  - conditional execution of property definitions
+  - property values may reference other properties via escape sequences: ${prop-key}
+-->
+
+<!ENTITY % STMTS "entry|default|if|unless|choose|entryTable|defaultTable|matchPattern|error">
+<!ENTITY % CONDITIONATTRS "key CDATA #REQUIRED  value CDATA #IMPLIED  match CDATA #IMPLIED  casesensitive (true|false) #IMPLIED  invert (true|false) #IMPLIED">
+
+<!--
+  Top-level element contains all statement-level elements, including <entry>, <if>, and <choose>.
+-->
+<!ELEMENT properties (comment?,(%STMTS;)*)>
+<!ATTLIST properties version CDATA #IMPLIED>
+
+<!--
+  Comment elements are ignored and exist only for compatibility with the
+  java.util.Properties native XML format.
+-->
+<!ELEMENT comment (#PCDATA)>
+
+<!--
+  Property "key=value" definition.
+  The value may be in the "value" attribute or in the body of the element.
+  The "key" and "value" attributes may contain escape sequences that refer
+  to other properties using the ${prop-key} syntax.  A backslash '\' escapes
+  the following character, preventing '$' from being interpreted as an escape
+  sequence, for example.
+-->
+<!ELEMENT entry (#PCDATA)>
+<!ATTLIST entry key CDATA #REQUIRED
+                value CDATA #IMPLIED
+                encrypted (true|false) #IMPLIED>
+
+<!--
+  Property "key=value" definition that does not override existing values for the entry.
+-->
+<!ELEMENT default (#PCDATA)>
+<!ATTLIST default key CDATA #REQUIRED
+                  value CDATA #IMPLIED
+                  encrypted (true|false) #IMPLIED>
+
+<!--
+  "if-then" test.  No "else" clause - use <choose> if you need an else.
+-->
+<!ELEMENT if (%STMTS;)*>
+<!ATTLIST if %CONDITIONATTRS;>
+
+<!--
+  "if-not-then" test.  No "else" clause - use <choose> if you need an else.
+-->
+<!ELEMENT unless (%STMTS;)*>
+<!ATTLIST unless %CONDITIONATTRS;>
+
+<!--
+  "if-then-else" test.
+-->
+<!ELEMENT choose ((when|unless)*,otherwise?)>
+
+<!ELEMENT when (%STMTS;)*>
+<!ATTLIST when %CONDITIONATTRS;>
+
+<!ELEMENT otherwise (%STMTS;)*>
+
+
+<!--
+  A lookup-table alternative to <choose>.
+-->
+<!ELEMENT entryTable (match*,nomatch?)>
+<!ATTLIST entryTable key CDATA #REQUIRED
+                     selector CDATA #REQUIRED
+                     separator CDATA #IMPLIED
+                     casesensitive (true|false) #IMPLIED>
+
+<!ELEMENT defaultTable (match*,nomatch?)>
+<!ATTLIST defaultTable key CDATA #REQUIRED
+                       selector CDATA #REQUIRED
+                       separator CDATA #IMPLIED
+                       casesensitive (true|false) #IMPLIED>
+
+<!ELEMENT match (#PCDATA)>
+<!ATTLIST match pattern CDATA #REQUIRED
+                value CDATA #IMPLIED
+                encrypted (true|false) #IMPLIED>
+
+<!ELEMENT nomatch (#PCDATA)>
+<!ATTLIST nomatch value CDATA #IMPLIED
+                  encrypted (true|false) #IMPLIED>
+
+
+<!--
+  Matches a value against a regular expression and sets entries based on groups
+  captured in the regex.  If the value matches the specified pattern, the body
+  will be evaluated and captured groups may be referred to using the interpolations
+  ${1}, ${2}, ${3}, ...
+-->
+<!ELEMENT matchPattern (%STMTS;)*>
+<!ATTLIST matchPattern value CDATA #REQUIRED
+                       match CDATA #REQUIRED
+                       casesensitive (true|false) #IMPLIED>
+
+
+<!--
+  Halts with an error message.  The message may be in the "message" attribute or in the body of the element.
+  The message may contain escape sequences just like <entry> definitions.
+-->
+<!ELEMENT error (#PCDATA)>
+<!ATTLIST error message CDATA #IMPLIED>
+
