@@ -1,0 +1,10 @@
+<!-- Configuration file used by XMLBeans -->
+<xb:config xmlns:xb="http://xml.apache.org/xmlbeans/2004/02/xbean/config">
+
+    <!-- The "namespace" element maps a namespace to the Java package names that should be generated. -->
+
+    <xb:namespace uri="http://www.bazaarvoice.com/xs/ClientBundle/1.0">
+        <xb:package>com.bazaarvoice.cca.bundle.xml.xmlbean</xb:package>
+    </xb:namespace>
+
+</xb:config>

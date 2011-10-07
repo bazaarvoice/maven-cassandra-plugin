@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Mike (Loyalty Lab Inc.) -->
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by John E McDowall (InStorecard) -->
+<xs:schema targetNamespace="http://www.instorecard.com/schema/v1/RetailIntegration/" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://www.instorecard.com/schema/v1/RetailIntegration/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Common simple and complex types for InStorecard Retail integration</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="ISCLogEnumerationExtension">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">An extension to enumerations</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-Za-z][0-9A-Za-z]*:[A-Z][0-9A-Za-z]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string2">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple string type with length of 2</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string4">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple string type with length of 4</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string10">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple string type with length of 10</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string45">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple string type with mininmum lengeth of 1 and maximum  length of 45</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="45"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string2000">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple string type with length of 2000</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string50">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple string type with length of 50</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string100">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple string type with length of 100</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string200">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple string type with length of 100</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string255">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple string type with length of 255</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="integer4">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple integer type with length of 4</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="integer5">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple integer type with length of 5</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="integer9">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple integer type with length of 9</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="integer10">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple integer type with length of 10</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="integer19">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Simple integer type with length of 19</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="19"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PersonFullNameType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Complex type for Person name.  Title is optional.</xs:documentation>
+
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Title" type="string4" minOccurs="0"/>
+			<xs:element name="FirstName" type="string100"/>
+			<xs:element name="MiddleName" type="string100" minOccurs="0"/>
+			<xs:element name="LastName" type="string100"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonNameType">
+
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Choice between a full name with title, first, middle, and last names or a simple string name</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="PersonFullName" type="PersonFullNameType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="AddressType">
+
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Complex type for address of a person.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AddressLine1" type="string100" minOccurs="0"/>
+			<xs:element name="AddressLine2" type="string100" minOccurs="0"/>
+			<xs:element name="City" type="string100" minOccurs="0"/>
+			<xs:element name="State" type="string2" minOccurs="0"/>
+
+			<xs:element name="PostalCode" type="string100" minOccurs="0"/>
+			<xs:element name="CountryCode" type="string2" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CardCreditDebitType" abstract="false" mixed="false">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Describes Credit or Debit card information</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:element name="CardHolderName" type="string100" nillable="false" minOccurs="0"/>
+			<xs:element name="CardNumber" type="string100" nillable="false"/>
+			<xs:element name="ExpirationDate" type="xs:gYearMonth" default="1900-01" nillable="false" minOccurs="0"/>
+			<xs:element name="CardSecurityCode" type="integer4" nillable="false" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="CardType" default="Visa">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+
+					<xs:enumeration value="Visa"/>
+					<xs:enumeration value="MasterCard"/>
+					<xs:enumeration value="American Express"/>
+					<xs:enumeration value="Discover"/>
+					<xs:enumeration value="Diners Club"/>
+					<xs:enumeration value="Japanese Commerce Bank"/>
+					<xs:enumeration value="Non-Credit Card Loyalty Card"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="TransactionLinkType">
+		<xs:annotation>
+			<xs:documentation>Describes a link to another transaction.  Currently only used for returns.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+
+			<xs:element name="TransactionID" type="string50">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The retailer's ID of the linked to transaction.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RetailStoreID" type="string50">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The retailer's ID of the store where the linked to transaction took place.</xs:documentation>
+
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RegisterID" type="string50" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The retailer's ID of the register where the linked to transaction took place.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReceiptDateTime" type="xs:dateTime">
+
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The retailer's date and time stamp of when the linked to transaction took place, i.e. the time on the receipt</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LineNumber" type="string50" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Number that identifies a product within an order.  If there are 4 items in an order, they will be numbered 1, 2, 3, 4.</xs:documentation>
+				</xs:annotation>
+
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="ReasonCode" type="TransactionLinkReasonType" use="optional" default="Return"/>
+	</xs:complexType>
+	<xs:simpleType name="TransactionLinkReasonType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Reason for linking to another Transaction</xs:documentation>
+		</xs:annotation>
+
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Return"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ISCLogTenderType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Type of money used in a tender.</xs:documentation>
+		</xs:annotation>
+
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Cash"/>
+			<xs:enumeration value="CreditDebit"/>
+			<xs:enumeration value="Check"/>
+			<xs:enumeration value="PurchaseOrder"/>
+			<xs:enumeration value="ManufacturerCoupon"/>
+			<xs:enumeration value="CoPay"/>
+			<xs:enumeration value="Loyalty"/>
+			<xs:enumeration value="TravelersCheck"/>
+
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ISCLogAmountType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Describes a monetary amount.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:decimal">
+
+				<xs:attribute name="Currency" type="ISCLogCurrencyCodeType" use="optional">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">The type of the currency of this monetary amount (i.e. USD).</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="ForeignAmount" type="xs:decimal" use="optional">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">Monetary amount.</xs:documentation>
+
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="ISCLogCurrencyCodeType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Enumeration of the possible currency types</xs:documentation>
+
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="AUD"/>
+			<xs:enumeration value="GBP"/>
+			<xs:enumeration value="NZD"/>
+			<xs:enumeration value="USD"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ISCLogQuantity">
+
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Describes a quantity.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:decimal">
+				<xs:attribute name="UnitOfMeasureCode" type="xs:string" default="Each">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">The unit in which the quantity is measured, i.e. pounds or kilograms.</xs:documentation>
+
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ISCSaleType">
+		<xs:sequence>
+			<xs:element name="LineNumber" type="string50" minOccurs="0">
+				<xs:annotation>
+
+					<xs:documentation xml:lang="en">Number that identifies a product within an order.  If there are 4 items in an order, they will be numbered 1, 2, 3, 4.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ItemSKU" type="string100">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Stock Keeping Unit - unique number to identify the product</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element name="Quantity" type="ISCLogQuantity">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Number of this SKU that was bought.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendedAmount" type="ISCLogAmountType">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Total amount spent on this item.</xs:documentation>
+
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShipDateTime" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">The date and time stamp of when this item shipped</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+
+	</xs:complexType>
+	<xs:complexType name="ISCReturnType">
+		<xs:sequence>
+			<xs:element name="LineNumber" type="string50" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Number that identifies a product within an order.  If there are 4 items in an order, they will be numbered 1, 2, 3, 4.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element name="ItemSKU" type="string100">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Stock Keeping Unit - unique number to identify the product</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Quantity" type="ISCLogQuantity">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Number of this SKU that was bought.</xs:documentation>
+
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendedAmount" type="ISCLogAmountType">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">Total amount spent on this item.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransactionLink" type="TransactionLinkType" minOccurs="0">
+
+				<xs:annotation>
+					<xs:documentation xml:lang="en">A link to the original purchase transaction.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CustomerPrivacyTypeEnumeration">
+		<xs:restriction base="xs:NMTOKEN">
+
+			<xs:enumeration value="eMail"/>
+			<xs:enumeration value="Phone"/>
+			<xs:enumeration value="Mail"/>
+			<xs:enumeration value="OptedIn"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CustomAttributeTypeText">
+		<xs:attribute name="name" type="string100" use="required"/>
+		<xs:attribute name="value" type="string2000" use="required"/>
+
+	</xs:complexType>
+	<xs:complexType name="CustomAttributeTypeLookup">
+		<xs:attribute name="name" type="string100" use="required"/>
+		<xs:attribute name="value" type="string45" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="CustomAttributeTypeNumeric">
+		<xs:attribute name="name" type="string100" use="required"/>
+		<xs:attribute name="value" type="xs:decimal" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="CustomAttributeTypeDateTime">
+		<xs:attribute name="name" type="string100" use="required"/>
+		<xs:attribute name="value" type="xs:dateTime" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="CustomAttributeDateTimeType">
+		<xs:sequence>
+			<xs:element name="CustomAttribute" type="CustomAttributeTypeDateTime" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CustomAttributeLookupType">
+		<xs:sequence>
+			<xs:element name="CustomAttribute" type="CustomAttributeTypeLookup" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CustomAttributeMonthDayType">
+		<xs:sequence>
+			<xs:element name="CustomAttribute" type="CustomAttributeTypeDateTime" maxOccurs="unbounded"/>
+		</xs:sequence>
+
+	</xs:complexType>
+	<xs:complexType name="CustomAttributeNumericType">
+		<xs:sequence>
+			<xs:element name="CustomAttribute" type="CustomAttributeTypeNumeric" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CustomAttributeTextType">
+		<xs:sequence>
+			<xs:element name="CustomAttribute" type="CustomAttributeTypeText" maxOccurs="unbounded"/>
+
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

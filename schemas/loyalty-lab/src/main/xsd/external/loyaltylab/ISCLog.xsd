@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Mike (Loyalty Lab Inc.) -->
+<xs:schema xmlns="http://www.instorecard.com/schema/v1/RetailIntegration/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.instorecard.com/schema/v1/RetailIntegration/"
+           elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:annotation>
+        <xs:documentation xml:lang="en">Internal canonical format for loading a retailer's transaction log into InStorecard data store. This format is based on the IXRetail 2.0 specification.
+        </xs:documentation>
+    </xs:annotation>
+    <xs:include schemaLocation="ISCLibrary.xsd"/>
+    <xs:element name="ISCLog" type="ISCLogType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">Describes a transaction log file.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType name="ISCLogType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">Describes the transaction log file to be loaded.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Transaction" type="ISCLogTransactionType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Description of a retailer's transaction.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="TestModeFlag" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">Allows test files to be loaded into the processing pipeline and NOT be loaded into the active database.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="TenderAmountType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">Payment method for retailers</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Amount" type="ISCLogAmountType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Amount of the payment tendered.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ShopperCreditCard" type="CardCreditDebitType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">A description of the credit card used for this tender.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="TenderType" type="ISCLogTenderType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">Type of money used in this tender.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="LineItemType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">The type of the Line item</xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="Sale" type="ISCSaleType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Describes a Sale.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Tender" type="TenderAmountType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Describes a payment tendered.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Return" type="ISCReturnType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Describes a returned item. If possible, we try to link the return back to its original Transaction and LineNumber via TransactionLink.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="ShopperType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">Describes a shopper. This comes from a retailer's transaction logs.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ShopperID" type="string50" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Unique identifier for a shopper.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ShopperName" type="PersonNameType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Shopper's name.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ShopperAddress" type="AddressType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Shopper's address.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ShopperPhoneNumber" type="string100" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Shopper's telephone number.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ShopperEMail" type="string200" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Shopper's e-mail address.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LoyaltyProgramID" type="string50" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">If a retailer currently has a loyalty program in place, this is the shopper's ID number for the retailer's current loyalty program.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LoyaltyMember" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Is the shopper a member of the loyalty program? 1=Yes, 0=no</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="RegistrationDate" type="xs:dateTime" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Date and time when the customer becomes member</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EMailOptIn" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Opt for E-Mail</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PhoneOptIn" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Opt for Phone</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MailOptIn" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Opt for Mail</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SourceReference" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Whatever is sent by retailer would be populated in this field, This could point to call center, web, and some shopper's rental list.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ShopperStatus" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Shopper status, A=Active or I=Inactive</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="RetailerShopperCreationDate" type="xs:dateTime" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The retailer's date and time stamp of when the shopper is registered with retailer, i.e. the time when shopper is there in retailer's system.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="RetailerRegistered" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">If Shopper is registered at retailer.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CustomAttributes" type="CustomAttributeValueType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The custom attribute values of shopper</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CustomAttributeValueType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">Describes custom attribute values</xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element name="NumericType" type="CustomAttributeNumericType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Describes custom attribute values of numeric data type. The sequence should be same as specified in custom attribute definition</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DateTimeType" type="CustomAttributeDateTimeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Describes custom attribute values of datet time data type. The sequence should be same as specified in custom attribute definition
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LookupType" type="CustomAttributeLookupType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Describes custom attribute values of Lookup data type. The sequence should be same as specified in custom attribute definition</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TextType" type="CustomAttributeTextType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Describes custom attribute values of text data type. The sequence should be same as specified in custom attribute definition</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MonthDayType" type="CustomAttributeMonthDayType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Describes custom attribute values of Month Day data type. The sequence should be same as specified in custom attribute definition</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="ISCLogTransactionType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">Describes a transaction.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="TransactionID" type="string50">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The retailer's ID of this transaction.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="RetailStoreID" type="string50">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The retailer's ID of the store where the transaction took place.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="RegisterID" type="string50" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The retailer's ID of the register where the transaction took place.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SalesAssociateID" type="string50" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The retailer's ID of the sales associate that rung the transaction.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ReceiptDateTime" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The retailer's date and time stamp of when the transaction took place, i.e. the time on the receipt</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Shopper" type="ShopperType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The retailer's description of the shopper that placed this transaction</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LineItem" type="LineItemType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The retailer's description of the line item. Can be a Sale (order) or a Tender (payment)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,80 @@
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.bazaarvoice.commons</groupId>
+        <artifactId>bv-super-pom</artifactId>
+        <version>1.8</version>
+        <relativePath></relativePath>
+    </parent>
+
+    <groupId>com.bazaarvoice</groupId>
+    <artifactId>schema-external-parent</artifactId>
+    <version>1.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- For all schema builds, always clean. -->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.4.1</version>
+                <executions>
+                    <execution>
+                        <id>auto-clean</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>xmlbeans-maven-plugin</artifactId>
+                    <version>2.3.3</version>
+                    <executions>
+                        <execution>
+                            <id>create-xmlbeans</id>
+                            <phase>generate-sources</phase> <!-- xmlbeans default = generate-sources -->
+                            <goals>
+                                <goal>xmlbeans</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <schemaDirectory>src/main/xsd</schemaDirectory>
+                        <javaSource>1.5</javaSource>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>bazaarvoice-deploy</id>
+            <url>https://repo.bazaarvoice.com/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>bazaarvoice-deploy</id>
+            <url>https://repo.bazaarvoice.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>
