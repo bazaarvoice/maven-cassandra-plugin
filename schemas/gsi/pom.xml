@@ -6,14 +6,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.bazaarvoice</groupId>
-        <artifactId>schema-external-parent</artifactId>
+        <groupId>com.bazaarvoice.commons.schema</groupId>
+        <artifactId>commons-schema-parent</artifactId>
         <version>1.2-SNAPSHOT</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>com.bazaarvoice</groupId>
-    <artifactId>schema-external-gsi</artifactId>
+    <artifactId>commons-schema-gsi</artifactId>
     <version>1.2-SNAPSHOT</version>
 
     <build>

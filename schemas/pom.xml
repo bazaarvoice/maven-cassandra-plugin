@@ -6,14 +6,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.bazaarvoice</groupId>
-        <artifactId>schema-external-parent</artifactId>
+        <groupId>com.bazaarvoice.commons.schema</groupId>
+        <artifactId>commons-schema-parent</artifactId>
         <version>1.2-SNAPSHOT</version>
         <relativePath>./parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>com.bazaarvoice</groupId>
-    <artifactId>schema-external-complete</artifactId>
+    <artifactId>commons-schema-complete</artifactId>
     <version>1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -25,11 +24,9 @@
         <module>client-bundles</module>
         <module>client-features</module>
         <module>expedia</module>
-        <module>formulas</module>
         <module>fusion-charts</module>
         <module>gsi</module>
         <module>loyalty-lab</module>
-        <module>page-layout</module>
     </modules>
 
 </project>
