@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ************ GENERATED CONTENT ************ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.bazaarvoice.com/xs/PRR/RssFeed/4.6" targetNamespace="http://www.bazaarvoice.com/xs/PRR/RssFeed/4.6"
+           elementFormDefault="qualified">
+   <xs:complexType name="ContextDataDimensionType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType"/>
+         <xs:element name="Label" type="xs:string"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="ContextDataValueType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType"/>
+         <xs:element name="Label" type="xs:string"/>
+         <xs:element name="ContextDataDimension" type="ContextDataDimensionType"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="ContextDataValuesType">
+      <xs:sequence>
+         <xs:element name="ContextDataValue" type="ContextDataValueType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="DisplayConfigurationType">
+      <xs:all>
+         <xs:element name="Code" type="xs:string"/>
+         <xs:element name="DomainName" type="xs:string"/>
+         <xs:element name="BvHost" type="xs:string"/>
+         <xs:element name="Locale" type="xs:string"/>
+         <xs:element name="DisplayName" type="xs:string"/>
+         <xs:element name="LegalName" type="xs:string"/>
+         <xs:element name="CustomerHomePageUrl" type="xs:anyURI"/>
+         <xs:element name="DynamicResourcePath" type="xs:anyURI"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="FeedType">
+      <xs:sequence>
+         <xs:element name="DisplayConfiguration" type="DisplayConfigurationType"/>
+         <xs:element name="Item" type="ItemType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="extractDate" type="xs:dateTime" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="ItemType">
+      <xs:all>
+         <xs:element name="Product" type="ProductType"/>
+         <xs:element name="Review" type="ReviewType"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="ProductType">
+      <xs:all>
+         <xs:element name="Name" type="xs:string" minOccurs="0"/>
+         <xs:element name="Description" type="xs:string" minOccurs="0"/>
+         <xs:element name="ImageUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="ReviewStatistics" type="ReviewStatisticsType" minOccurs="0"/>
+         <xs:element name="UrlMap" type="UrlMapType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="RatingDimensionType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType"/>
+         <xs:element name="RatingRange" type="xs:int"/>
+         <xs:element name="Label1" type="xs:string" minOccurs="0"/>
+         <xs:element name="Label2" type="xs:string" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+      <xs:attribute name="displayType">
+         <xs:simpleType>
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="NORMAL"/>
+               <xs:enumeration value="SLIDER"/>
+               <xs:enumeration value="RADIO"/>
+            </xs:restriction>
+         </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="selectedValueInDisplayEnabled" type="xs:boolean" default="false"/>
+   </xs:complexType>
+   <xs:complexType name="RatingValueType">
+      <xs:all>
+         <xs:element name="Rating" type="xs:int"/>
+         <xs:element name="RatingDimension" type="RatingDimensionType"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="RatingValuesType">
+      <xs:sequence>
+         <xs:element name="RatingValue" type="RatingValueType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ReviewStatisticsType">
+      <xs:all>
+         <xs:element name="AverageOverallRating" minOccurs="0" type="xs:float"/>
+         <xs:element name="OverallRatingRange" type="xs:int" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="ReviewType">
+      <xs:all>
+         <xs:element name="Reviewer" type="UserProfileType" minOccurs="0"/>
+         <xs:element name="RatingsOnly" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="Title" type="xs:string" minOccurs="0"/>
+         <xs:element name="ReviewText" type="xs:string" minOccurs="0"/>
+         <xs:element name="Pros" type="xs:string" minOccurs="0"/>
+         <xs:element name="Cons" type="xs:string" minOccurs="0"/>
+         <xs:element name="Rating" type="xs:int" minOccurs="0"/>
+         <xs:element name="RatingRange" type="xs:int" minOccurs="0"/>
+         <xs:element name="Recommended" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="NumFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumPositiveFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumNegativeFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="ReviewerNickname" type="xs:string" minOccurs="0"/>
+         <xs:element name="ReviewerLocation" type="xs:string" minOccurs="0"/>
+         <xs:element name="SubmissionTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="Featured" type="xs:boolean"/>
+         <xs:element name="ContextDataValues" type="ContextDataValuesType" minOccurs="0"/>
+         <xs:element name="RatingValues" type="RatingValuesType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+      <xs:attribute name="removed" type="xs:boolean" default="false"/>
+   </xs:complexType>
+   <xs:complexType name="UrlMapEntryType">
+      <xs:all>
+         <xs:element name="Value" type="xs:string"/>
+      </xs:all>
+      <xs:attribute name="key" type="xs:string"/>
+   </xs:complexType>
+   <xs:complexType name="UrlMapType">
+      <xs:sequence>
+         <xs:element name="Entry" type="UrlMapEntryType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="UserProfileType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="DisplayName" type="xs:string" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:simpleType name="ExternalIdType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[^/]+"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="LocaleType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[a-z]{2}(_[A-Z]{2}(_[0-9a-zA-Z_]+)?)?"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="NonNegativeInt">
+      <xs:restriction base="xs:int">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="NonNegativeLong">
+      <xs:restriction base="xs:long">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PositiveInt">
+      <xs:restriction base="xs:int">
+         <xs:minInclusive value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:element name="Feed" type="FeedType"/>
+</xs:schema>

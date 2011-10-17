@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ************ GENERATED CONTENT ************ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.bazaarvoice.com/xs/Internal/BrandAnswersAllQAReport/4.1" targetNamespace="http://www.bazaarvoice.com/xs/Internal/BrandAnswersAllQAReport/4.1"
+           elementFormDefault="qualified">
+   <xs:complexType name="AnswerType">
+      <xs:all>
+         <xs:element name="ModerationStatus" type="ModerationStatusType" minOccurs="0"/>
+         <xs:element name="SubmissionTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="NumFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumPositiveFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumNegativeFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumBestAnswerFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="User" type="ReviewerType" minOccurs="0"/>
+         <xs:element name="Photos" type="PhotosType" minOccurs="0"/>
+         <xs:element name="Videos" type="VideosType" minOccurs="0"/>
+         <xs:element name="ProductReferences" type="ProductReferencesType" minOccurs="0"/>
+         <xs:element name="AnswerText" type="xs:string" minOccurs="0"/>
+         <xs:element name="DisplayLocale" type="LocaleType" minOccurs="0"/>
+         <xs:element name="ContentCodes" type="xs:string" minOccurs="0"/>
+         <xs:element name="FirstPublishTime" type="xs:dateTime" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="AnswersType">
+      <xs:sequence>
+         <xs:element name="Answer" type="AnswerType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="BrandAnswersAllQAReportType">
+      <xs:all>
+         <xs:element name="SourceCluster" type="xs:string" minOccurs="0"/>
+         <xs:element name="TotalResults" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="BrandAnswersAllQAReportNodes" type="BrandAnswersAllQAReportNodesType"
+                     minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="BrandAnswersAllQAReportNodesType">
+      <xs:sequence>
+         <xs:element name="BrandAnswersAllQAReportNode" type="BrandAnswersAllQAReportNodeType"
+                     minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="BrandAnswersAllQAReportNodeType">
+      <xs:all>
+         <xs:element name="Retailer" type="ClientType"/>
+         <xs:element name="Question" type="QuestionType"/>
+         <xs:element name="Product" type="ProductType"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="BrandType">
+      <xs:all>
+         <xs:element name="Name" type="xs:string" minOccurs="0"/>
+         <xs:element name="ExternalId" type="ExternalIdType" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="CategoryItemType">
+      <xs:all>
+         <xs:element name="CategoryName" type="xs:string" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="CategoryItemsType">
+      <xs:sequence>
+         <xs:element name="CategoryItem" type="CategoryItemType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ClientType">
+      <xs:all>
+         <xs:element name="Name" type="xs:string" minOccurs="1"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="PhotoSizeType">
+      <xs:attribute name="id" type="PhotoSizeTypeEnum"/>
+      <xs:attribute name="url" type="xs:anyURI"/>
+   </xs:complexType>
+   <xs:complexType name="PhotoSizesType">
+      <xs:sequence>
+         <xs:element name="Size" type="PhotoSizeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="PhotoType">
+      <xs:all>
+         <xs:element name="Caption" type="xs:string" minOccurs="0"/>
+         <xs:element name="Sizes" type="PhotoSizesType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="PhotosType">
+      <xs:sequence>
+         <xs:element name="Photo" type="PhotoType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ProductType">
+      <xs:all>
+         <xs:element name="Name" type="xs:string" minOccurs="0"/>
+         <xs:element name="Brand" type="BrandType" minOccurs="0"/>
+         <xs:element name="CategoryItems" type="CategoryItemsType" minOccurs="0"/>
+         <xs:element name="ProductPageUrl" type="xs:anyURI" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="ProductReferencesType">
+      <xs:sequence>
+         <xs:element name="ProductReference" type="ProductReferenceType" minOccurs="1"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ProductReferenceType">
+      <xs:all>
+         <xs:element name="Product" type="ProductType"/>
+         <xs:element name="Caption" type="xs:string" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="QuestionType">
+      <xs:all>
+         <xs:element name="ModerationStatus" type="ModerationStatusType" minOccurs="0"/>
+         <xs:element name="SubmissionTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="QuestionSummary" type="xs:string" minOccurs="0"/>
+         <xs:element name="QuestionDetails" type="xs:string" minOccurs="0"/>
+         <xs:element name="NumAnswers" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="Answers" type="AnswersType" minOccurs="0"/>
+         <xs:element name="DisplayLocale" type="LocaleType" minOccurs="0"/>
+         <xs:element name="FirstPublishTime" type="xs:dateTime" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="ReviewerType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="VideoType">
+      <xs:all>
+         <xs:element name="Caption" type="xs:string" minOccurs="0"/>
+         <xs:element name="VideoHost" type="xs:string" minOccurs="0"/>
+         <xs:element name="VideoId" type="xs:string" minOccurs="0"/>
+         <xs:element name="VideoUrl" type="xs:string" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="VideosType">
+      <xs:sequence>
+         <xs:element name="Video" type="VideoType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="ExternalIdType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[^/]+"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="LocaleType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[a-z]{2}(_[A-Z]{2}(_[0-9a-zA-Z_]+)?)?"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ModerationStatusType">
+      <xs:restriction base="xs:NMTOKEN">
+         <xs:enumeration value="NONE"/>
+         <xs:enumeration value="SUBMITTED"/>
+         <xs:enumeration value="APPROVED"/>
+         <xs:enumeration value="HOLD"/>
+         <xs:enumeration value="PENDING"/>
+         <xs:enumeration value="REJECTED"/>
+         <xs:enumeration value="REMOVEDBYCLIENT"/>
+         <xs:enumeration value="REMOVEDTEST"/>
+         <xs:enumeration value="AUTOMATEDHOLD"/>
+         <xs:enumeration value="EXPIRED"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="NonNegativeInt">
+      <xs:restriction base="xs:int">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PhotoSizeTypeEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="thumbnail"/>
+         <xs:enumeration value="normal"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:element name="BrandAnswersAllQAReport" type="BrandAnswersAllQAReportType"/>
+</xs:schema>

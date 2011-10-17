@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ************ GENERATED CONTENT ************ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.bazaarvoice.com/xs/Internal/BrandAnswersProductReport/4.2" targetNamespace="http://www.bazaarvoice.com/xs/Internal/BrandAnswersProductReport/4.2"
+           elementFormDefault="qualified">
+   <xs:complexType name="BrandAnswersProductReportType">
+      <xs:all>
+         <xs:element name="SourceCluster" type="xs:string" minOccurs="0"/>
+         <xs:element name="TotalResults" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="BrandAnswersProductReportNodes" type="BrandAnswersProductReportNodesType"
+                     minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="BrandAnswersProductReportNodesType">
+      <xs:sequence>
+         <xs:element name="BrandAnswersProductReportNode" type="BrandAnswersProductReportNodeType"
+                     minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="BrandAnswersProductReportNodeType">
+      <xs:all>
+         <xs:element name="RetailerName" type="xs:string"/>
+         <xs:element name="ProductName" type="xs:string"/>
+         <xs:element name="ProductExternalId" type="ExternalIdType"/>
+         <xs:element name="NumQuestions" type="NonNegativeInt"/>
+         <xs:element name="NumQuestionsWithoutBrandAnswers" type="NonNegativeInt"/>
+         <xs:element name="NumUnansweredQuestions" type="NonNegativeInt"/>
+         <xs:element name="NumBrandAnswers" type="NonNegativeInt"/>
+         <xs:element name="NumApprovedBrandAnswers" type="NonNegativeInt"/>
+         <xs:element name="NumRejectedBrandAnswers" type="NonNegativeInt"/>
+         <xs:element name="NumPendingBrandAnswers" type="NonNegativeInt"/>
+         <xs:element name="TotalNumBrandAnswerPositiveFeedbacks" type="NonNegativeInt"/>
+         <xs:element name="AverageTimeToAnswer" type="xs:decimal"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:simpleType name="ExternalIdType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[^/]+"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="NonNegativeInt">
+      <xs:restriction base="xs:int">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:element name="BrandAnswersProductReport" type="BrandAnswersProductReportType"/>
+</xs:schema>

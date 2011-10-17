@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ************ GENERATED CONTENT ************ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.bazaarvoice.com/xs/InternalTools/3.4" targetNamespace="http://www.bazaarvoice.com/xs/InternalTools/3.4"
+           elementFormDefault="qualified">
+   <xs:complexType name="AttributesType">
+      <xs:sequence>
+         <xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="AttributeType">
+      <xs:sequence>
+         <xs:choice>
+            <xs:element name="Value" type="OptionalLocalizedStringType" minOccurs="1"
+                        maxOccurs="unbounded"/>
+            <xs:element name="UrlValue" type="OptionalLocalizedUrlType" minOccurs="1"
+                        maxOccurs="unbounded"/>
+         </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="AdditionalFieldsType">
+      <xs:sequence>
+         <xs:element name="AdditionalField" type="AdditionalFieldType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="AdditionalFieldType">
+      <xs:all>
+         <xs:element name="Value" type="xs:string"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="CategoriesType">
+      <xs:sequence>
+         <xs:element name="Category" type="CategoryType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="CategoryNavigationLinkType">
+      <xs:all>
+         <xs:element name="CategoryLink" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="Selected" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="Category" type="CategoryType" minOccurs="0"/>
+         <xs:element name="SubCategoryNavigationLinks" type="CategoryNavigationLinksType"
+                     minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="CategoryNavigationLinksType">
+      <xs:sequence>
+         <xs:element name="Link" type="CategoryNavigationLinkType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="CategoryType">
+      <xs:all>
+         <xs:element name="CategoryPath" type="CategoriesType" minOccurs="0"/>
+         <xs:element name="Name" type="xs:string" minOccurs="0"/>
+         <xs:element name="CategoryPageUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="CategoryQuestionsUrl" type="CategoryNavigationLinkType" minOccurs="0"/>
+         <xs:element name="Attributes" type="AttributesType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="FormBooleanInputType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attributeGroup ref="formInputAttrGroup"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="FormHiddenInputType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attribute name="binding" type="xs:string"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="FormIntegerInputType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attributeGroup ref="formInputAttrGroup"/>
+            <xs:attribute name="minimum" type="xs:int"/>
+            <xs:attribute name="maximum" type="xs:int"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="FormSelectInputType">
+      <xs:sequence>
+         <xs:element name="Option" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+               <xs:attribute name="value" type="xs:string"/>
+               <xs:attribute name="label" type="xs:string"/>
+               <xs:attribute name="selected" type="xs:boolean"/>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+      <xs:attributeGroup ref="formInputAttrGroup"/>
+      <xs:attribute name="lowLabel" type="xs:string"/>
+      <xs:attribute name="highLabel" type="xs:string"/>
+   </xs:complexType>
+   <xs:complexType name="FormSubmitInputType">
+      <xs:attribute name="binding" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+   </xs:complexType>
+   <xs:complexType name="FormFileInputType">
+      <xs:attribute name="binding" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+      <xs:attribute name="accept" type="xs:string"/>
+   </xs:complexType>
+   <xs:complexType name="FormTextAreaInputType">
+      <xs:simpleContent>
+         <xs:extension base="FormTextInputType"/>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="FormTextInputType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attributeGroup ref="formInputAttrGroup"/>
+            <xs:attribute name="maxLength" type="xs:int"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="FormType">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+         <xs:element name="HiddenInput" type="FormHiddenInputType"/>
+         <xs:element name="BooleanInput" type="FormBooleanInputType"/>
+         <xs:element name="IntegerInput" type="FormIntegerInputType"/>
+         <xs:element name="SelectInput" type="FormSelectInputType"/>
+         <xs:element name="TextAreaInput" type="FormTextAreaInputType"/>
+         <xs:element name="TextInput" type="FormTextInputType"/>
+         <xs:element name="FileInput" type="FormFileInputType"/>
+         <xs:element name="SubmitInput" type="FormSubmitInputType"/>
+      </xs:choice>
+      <xs:attribute name="action" type="xs:anyURI" use="required"/>
+      <xs:attribute name="accept-charset" type="xs:string" use="required"/>
+      <xs:attribute name="enctype" type="xs:string"/>
+      <xs:attribute name="method" type="xs:string" use="required"/>
+      <xs:attribute name="hasError" type="xs:boolean"/>
+   </xs:complexType>
+   <xs:complexType name="ModelType">
+      <xs:all>
+         <xs:element name="Site" type="SiteType"/>
+         <xs:element name="Product" type="ProductType" minOccurs="0"/>
+         <xs:element name="Category" type="CategoryType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="view" type="xs:string" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="OptionalLocalizedStringType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attribute name="locale" type="LocaleType" use="optional"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="OptionalLocalizedUrlType">
+      <xs:simpleContent>
+         <xs:extension base="xs:anyURI">
+            <xs:attribute name="locale" type="LocaleType" use="optional"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="ProductType">
+      <xs:all>
+         <xs:element name="Name" type="xs:string" minOccurs="0"/>
+         <xs:element name="Description" type="xs:string" minOccurs="0"/>
+         <xs:element name="Brand" type="xs:string" minOccurs="0"/>
+         <xs:element name="Attributes" type="AttributesType" minOccurs="0"/>
+         <xs:element name="CategoryName" type="xs:string" minOccurs="0"/>
+         <xs:element name="CategoryPath" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="Category" type="CategoryType" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="ProductPageUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="ProductReviewsUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="ProductQuestionsUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="ImageUrl" type="xs:anyURI" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="SampleDisplayContainerType">
+      <xs:complexContent>
+         <xs:extension base="SampleGenericContainerType">
+            <xs:sequence>
+               <xs:element name="Product" type="ProductType" minOccurs="0"/>
+               <xs:element name="Category" type="CategoryType" minOccurs="0"/>
+               <xs:element name="EncodedUserExternalId" type="xs:string" minOccurs="0"/>
+               <xs:element name="SampleGenericContainer" type="xs:anyURI" minOccurs="0"/>
+               <xs:element name="InjectionParamsForm" type="FormType"/>
+               <xs:element name="SecurityConfiguration" type="SecurityConfigurationType"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="SampleGenericContainerType">
+      <xs:sequence>
+         <xs:element name="Site" type="SiteType"/>
+         <xs:element name="ContainerParameters" minOccurs="0">
+            <xs:complexType>
+               <xs:all>
+                  <xs:element name="BVPage" type="xs:string" minOccurs="0"/>
+                  <xs:element name="ProductExternalId" type="ExternalIdType" minOccurs="0"/>
+                  <xs:element name="CategoryExternalId" type="ExternalIdType" minOccurs="0"/>
+                  <xs:element name="ContentType" type="xs:string" minOccurs="0"/>
+                  <xs:element name="AuthenticateUser" type="xs:string" minOccurs="0"/>
+               </xs:all>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="LoginParameters" minOccurs="0">
+            <xs:complexType>
+               <xs:all>
+                  <xs:element name="UserExternalId" type="ExternalIdType" minOccurs="0"/>
+                  <xs:element name="UserDisplayName" type="xs:string" minOccurs="0"/>
+                  <xs:element name="UserEmailAddress" type="xs:string" minOccurs="0"/>
+                  <xs:element name="UserAffiliation" type="xs:string" minOccurs="0"/>
+                  <xs:element name="UserRank" type="xs:string" minOccurs="0"/>
+                  <xs:element name="SessionParams" type="xs:string" minOccurs="0"/>
+                  <xs:element name="AdditionalFields" type="AdditionalFieldsType" minOccurs="0"/>
+               </xs:all>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="BVPageParameters" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="Parameter" minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:simpleContent>
+                           <xs:extension base="xs:string">
+                              <xs:attribute name="name" type="xs:string"/>
+                           </xs:extension>
+                        </xs:simpleContent>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="TestLinks" minOccurs="0">
+            <xs:complexType>
+               <xs:all>
+                  <xs:element name="WriteReviewLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="WriteReviewApiLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseReviewsEmbeddedLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseReviewsNoscriptLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseReviewsEmbeddedApiLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseReviewsStandaloneLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseReviewsStandaloneApiLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="UserProfileStandaloneLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="UserProfileStandaloneApiLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="AskQuestionLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="AskQuestionApiLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="WriteStoryLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="WriteStoryApiLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="StatisticsSummaryEmbeddedLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseQuestionsEmbeddedLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseQuestionsEmbeddedApiLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseQuestionsStandaloneLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseQuestionsStandaloneApiLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseStoriesEmbeddedLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseStoriesEmbeddedApiLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseStoriesStandaloneLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="BrowseStoriesStandaloneApiLink" type="xs:anyURI" minOccurs="0"/>
+               </xs:all>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="SampleLoginType">
+      <xs:all>
+         <xs:element name="Site" type="SiteType"/>
+         <xs:element name="SuccessTargetUrl" type="xs:string" minOccurs="0"/>
+         <xs:element name="LoginForm" type="FormType"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="SecurityConfigurationType">
+      <xs:all>
+         <xs:element name="Links">
+            <xs:complexType>
+               <xs:all>
+                  <xs:element name="DisableLink" type="xs:anyURI" minOccurs="0"/>
+                  <xs:element name="EnableLink" type="xs:anyURI" minOccurs="0"/>
+               </xs:all>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="ActiveRules" minOccurs="0">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="Rule" minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:attribute name="feature" type="xs:string"/>
+                        <xs:attribute name="api" type="xs:string"/>
+                        <xs:attribute name="format" type="xs:string"/>
+                        <xs:attribute name="internal-tool" type="xs:boolean"/>
+                        <xs:attribute name="ips-to-origin-only" type="xs:boolean"/>
+                        <xs:attribute name="require-passkey" type="xs:boolean"/>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="SiteType">
+      <xs:all>
+         <xs:element name="Locale" type="LocaleType"/>
+         <xs:element name="InternalName" type="xs:string"/>
+         <xs:element name="DisplayName" type="xs:string"/>
+         <xs:element name="DomainName" type="xs:string"/>
+         <xs:element name="RatingRange" type="xs:int"/>
+         <xs:element name="StaticResourceBaseUrl" type="xs:anyURI"/>
+         <xs:element name="SimpleContentBaseUrl" type="xs:anyURI"/>
+         <xs:element name="ReferrerUrl" type="xs:string" minOccurs="0"/>
+         <xs:element name="NonCachedPageUserAgentClass" type="UserAgentClassType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="displayCode" type="DisplayCodeType" use="required"/>
+   </xs:complexType>
+   <xs:simpleType name="DisplayCodeType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[a-zA-Z0-9_\-]+"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ExternalIdType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[^/]+"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="LocaleType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[a-z]{2}(_[A-Z]{2}(_[0-9a-zA-Z_]+)?)?"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="NonNegativeInt">
+      <xs:restriction base="xs:int">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="NonNegativeLong">
+      <xs:restriction base="xs:long">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PositiveInt">
+      <xs:restriction base="xs:int">
+         <xs:minInclusive value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="UserAgentClassType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="UNCHECKED"/>
+         <xs:enumeration value="EXPLORER"/>
+         <xs:enumeration value="SAFARI"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:attributeGroup name="formInputAttrGroup">
+      <xs:attribute name="binding" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+      <xs:attribute name="labelHelpText" type="xs:string"/>
+      <xs:attribute name="required" type="xs:boolean"/>
+      <xs:attribute name="hasError" type="xs:boolean"/>
+      <xs:attribute name="errorMessage" type="xs:string"/>
+   </xs:attributeGroup>
+   <xs:element name="Model" type="ModelType"/>
+   <xs:element name="SampleDisplayContainer" type="SampleDisplayContainerType"/>
+   <xs:element name="SampleGenericContainer" type="SampleGenericContainerType"/>
+   <xs:element name="SampleLogin" type="SampleLoginType"/>
+</xs:schema>

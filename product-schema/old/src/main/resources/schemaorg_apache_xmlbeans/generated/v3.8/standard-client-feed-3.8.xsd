@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ************ GENERATED CONTENT ************ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.bazaarvoice.com/xs/PRR/StandardClientFeed/3.8" targetNamespace="http://www.bazaarvoice.com/xs/PRR/StandardClientFeed/3.8"
+           elementFormDefault="qualified">
+   <xs:complexType name="AdditionalFieldsType">
+      <xs:sequence>
+         <xs:element name="AdditionalField" type="AdditionalFieldType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="AdditionalFieldType">
+      <xs:all>
+         <xs:element name="Value" type="xs:string"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="AnswerType">
+      <xs:all>
+         <xs:element name="ModerationStatus" type="ModerationStatusType" minOccurs="0"/>
+         <xs:element name="LastModificationTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="SubmissionTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="NumFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumPositiveFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumNegativeFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumInappropriateFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="Badges" type="BadgesType" minOccurs="0"/>
+         <xs:element name="User" type="ReviewerType" minOccurs="0"/>
+         <xs:element name="UserNickname" type="xs:string" minOccurs="0"/>
+         <xs:element name="UserLocation" type="xs:string" minOccurs="0"/>
+         <xs:element name="ContextDataValues" type="ContextDataValuesType" minOccurs="0"/>
+         <xs:element name="Photos" type="PhotosType" minOccurs="0"/>
+         <xs:element name="Videos" type="VideosType" minOccurs="0"/>
+         <xs:element name="ProductReferences" type="ProductReferencesType" minOccurs="0"/>
+         <xs:element name="AnswerText" type="xs:string" minOccurs="0"/>
+         <xs:element name="AdditionalFields" type="AdditionalFieldsType" minOccurs="0"/>
+         <xs:element name="UserEmailAddress" type="xs:string" minOccurs="0"/>
+         <xs:element name="SendEmailAlertWhenPublished" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="IpAddress" type="xs:string" minOccurs="0"/>
+         <xs:element name="SessionParams" type="xs:string" minOccurs="0"/>
+         <xs:element name="DisplayLocale" type="LocaleType" minOccurs="0"/>
+         <xs:element name="CampaignId" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="ContentCodes" type="xs:string" minOccurs="0"/>
+         <xs:element name="OriginatingDisplayCode" type="DisplayCodeType" minOccurs="0"/>
+         <xs:element name="FirstPublishTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="LastPublishTime" type="xs:dateTime" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="AnswersType">
+      <xs:sequence>
+         <xs:element name="Answer" type="AnswerType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="AttributesType">
+      <xs:sequence>
+         <xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="AttributeType">
+      <xs:sequence>
+         <xs:choice>
+            <xs:element name="Value" type="OptionalLocalizedStringType" minOccurs="1"
+                        maxOccurs="unbounded"/>
+            <xs:element name="UrlValue" type="OptionalLocalizedUrlType" minOccurs="1"
+                        maxOccurs="unbounded"/>
+         </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="AverageRatingValueType">
+      <xs:all>
+         <xs:element name="AverageRating" type="xs:float"/>
+         <xs:element name="RatingDimension" type="RatingDimensionType"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="AverageRatingValuesType">
+      <xs:sequence>
+         <xs:element name="AverageRatingValue" type="AverageRatingValueType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="BadgesType">
+      <xs:sequence>
+         <xs:element name="Badge" type="BadgeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="BadgeType">
+      <xs:all>
+         <xs:element name="Name" type="xs:string"/>
+         <xs:element name="ContentType" type="xs:string" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="BrandType">
+      <xs:all>
+         <xs:element name="Name" type="xs:string" minOccurs="0"/>
+         <xs:element name="Names" type="NamesType" minOccurs="0"/>
+         <xs:element name="ExternalId" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="Attributes" type="AttributesType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="disabled" type="xs:boolean" default="false"/>
+   </xs:complexType>
+   <xs:complexType name="CategoriesType">
+      <xs:sequence>
+         <xs:element name="Category" type="CategoryType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="CategoryItemType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="CategoryId" type="NonNegativeLong"/>
+         <xs:element name="CategoryName" type="xs:string" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="CategoryItemsType">
+      <xs:sequence>
+         <xs:element name="CategoryItem" type="CategoryItemType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="CategoryPageUrlsType">
+      <xs:sequence>
+         <xs:element name="CategoryPageUrl" minOccurs="1" maxOccurs="unbounded"
+                     type="LocalizedUrlType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="CategoryType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="CategoryPath" type="CategoriesType" minOccurs="0"/>
+         <xs:element name="Name" type="xs:string" minOccurs="0"/>
+         <xs:element name="Names" minOccurs="0" type="NamesType"/>
+         <xs:element name="CategoryPageUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="CategoryPageUrls" minOccurs="0" type="CategoryPageUrlsType"/>
+         <xs:element name="ReviewsPageTitle" minOccurs="0" type="xs:string"/>
+         <xs:element name="ReviewsPageTitles" minOccurs="0" type="PageTitlesType"/>
+         <xs:element name="ReviewsPageMetaDescription" minOccurs="0" type="xs:string"/>
+         <xs:element name="ReviewsPageMetaDescriptions" minOccurs="0" type="MetaDescriptionsType"/>
+         <xs:element name="Attributes" type="AttributesType" minOccurs="0"/>
+         <xs:element name="NumQuestions" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumStories" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumAnswers" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="Questions" type="QuestionsType" minOccurs="0"/>
+         <xs:element name="Stories" type="StoriesType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="disabled" type="xs:boolean" default="false"/>
+   </xs:complexType>
+   <xs:complexType name="ClientCommentsType">
+      <xs:sequence>
+         <xs:element name="ClientComment" type="ClientCommentType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ClientCommentType">
+      <xs:all>
+         <xs:element name="Date" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="Name" type="xs:string" minOccurs="0"/>
+         <xs:element name="Comment" type="xs:string" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="ClientResponsesType">
+      <xs:sequence>
+         <xs:element name="ClientResponse" type="ClientResponseType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ClientResponseType">
+      <xs:all>
+         <xs:element name="Department" type="xs:string" minOccurs="0"/>
+         <xs:element name="Name" type="xs:string" minOccurs="0"/>
+         <xs:element name="Response" type="xs:string" minOccurs="0"/>
+         <xs:element name="ResponseMarkup" type="MarkupType" minOccurs="0"/>
+         <xs:element name="ResponseType" type="xs:string" minOccurs="0"/>
+         <xs:element name="ResponseSource" type="xs:string" minOccurs="0"/>
+         <xs:element name="Date" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="ProductReferences" type="ProductReferencesType" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="CommentType">
+      <xs:all>
+         <xs:element name="ModerationStatus" type="ModerationStatusType" minOccurs="0"/>
+         <xs:element name="LastModificationTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="SubmissionTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="NumFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumPositiveFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumNegativeFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumInappropriateFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="Badges" type="BadgesType" minOccurs="0"/>
+         <xs:element name="User" type="ReviewerType" minOccurs="0"/>
+         <xs:element name="UserNickname" type="xs:string" minOccurs="0"/>
+         <xs:element name="UserLocation" type="xs:string" minOccurs="0"/>
+         <xs:element name="ContextDataValues" type="ContextDataValuesType" minOccurs="0"/>
+         <xs:element name="Photos" type="PhotosType" minOccurs="0"/>
+         <xs:element name="CommentText" type="xs:string" minOccurs="0"/>
+         <xs:element name="UserEmailAddress" type="xs:string" minOccurs="0"/>
+         <xs:element name="SendEmailAlertWhenPublished" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="IpAddress" type="xs:string" minOccurs="0"/>
+         <xs:element name="SessionParams" type="xs:string" minOccurs="0"/>
+         <xs:element name="DisplayLocale" type="LocaleType" minOccurs="0"/>
+         <xs:element name="CampaignId" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="ContentCodes" type="xs:string" minOccurs="0"/>
+         <xs:element name="OriginatingDisplayCode" type="DisplayCodeType" minOccurs="0"/>
+         <xs:element name="FirstPublishTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="LastPublishTime" type="xs:dateTime" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="CommentsType">
+      <xs:sequence>
+         <xs:element name="Comment" type="CommentType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="page" type="PositiveInt" use="optional" default="1"/>
+      <xs:attribute name="numPages" type="PositiveInt" use="optional" default="1"/>
+   </xs:complexType>
+   <xs:complexType name="ContentRatingFeedbackType">
+      <xs:all>
+         <xs:element name="Range" type="xs:int"/>
+         <xs:element name="NumRatingFeedbacks" type="xs:int"/>
+         <xs:element name="ComputedScore" type="xs:float" minOccurs="0"/>
+         <xs:element name="AverageScore" type="xs:float" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="ContentSourceType">
+      <xs:all>
+         <xs:element name="Name" type="xs:string"/>
+         <xs:element name="ExternalContentId" type="ExternalIdType" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="ContextDataDimensionType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType"/>
+         <xs:element name="Label" type="xs:string"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="ContextDataValueType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType"/>
+         <xs:element name="Label" type="xs:string"/>
+         <xs:element name="ContextDataDimension" type="ContextDataDimensionType"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="ContextDataValuesType">
+      <xs:sequence>
+         <xs:element name="ContextDataValue" type="ContextDataValueType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="DescriptionsType">
+      <xs:sequence>
+         <xs:element name="Description" minOccurs="1" maxOccurs="unbounded"
+                     type="LocalizedStringType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="EansType">
+      <xs:sequence>
+         <xs:element name="EAN" minOccurs="1" maxOccurs="unbounded" type="EanType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="FeedType">
+      <xs:sequence>
+         <xs:element name="Category" type="CategoryType" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element name="Product" type="ProductType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="extractDate" type="xs:dateTime" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="ImageUrlsType">
+      <xs:sequence>
+         <xs:element name="ImageUrl" minOccurs="1" maxOccurs="unbounded" type="LocalizedUrlType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="IsbnsType">
+      <xs:sequence>
+         <xs:element name="ISBN" minOccurs="1" maxOccurs="unbounded" type="IsbnType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="LinkTextType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attribute name="href" type="xs:anyURI" use="required"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="LocalizedStringType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attribute name="locale" type="LocaleType" use="required"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="LocalizedUrlType">
+      <xs:simpleContent>
+         <xs:extension base="xs:anyURI">
+            <xs:attribute name="locale" type="LocaleType" use="required"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="ManufacturerPartNumbersType">
+      <xs:sequence>
+         <xs:element name="ManufacturerPartNumber" minOccurs="1" maxOccurs="unbounded"
+                     type="ProductUniversalIdentifierType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="MarkupType">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+         <xs:element name="HighlightText" type="xs:string"/>
+         <xs:element name="PlainText" type="xs:string"/>
+         <xs:element name="LinkText" type="LinkTextType"/>
+      </xs:choice>
+   </xs:complexType>
+   <xs:complexType name="MetaDescriptionsType">
+      <xs:sequence>
+         <xs:element name="MetaDescription" minOccurs="1" maxOccurs="unbounded"
+                     type="LocalizedStringType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ModelNumbersType">
+      <xs:sequence>
+         <xs:element name="ModelNumber" minOccurs="1" maxOccurs="unbounded"
+                     type="ProductUniversalIdentifierType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="NamesType">
+      <xs:sequence>
+         <xs:element name="Name" minOccurs="1" maxOccurs="unbounded" type="LocalizedStringType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="OptionalLocalizedStringType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attribute name="locale" type="LocaleType" use="optional"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="OptionalLocalizedUrlType">
+      <xs:simpleContent>
+         <xs:extension base="xs:anyURI">
+            <xs:attribute name="locale" type="LocaleType" use="optional"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="PageTitlesType">
+      <xs:sequence>
+         <xs:element name="PageTitle" minOccurs="1" maxOccurs="unbounded" type="LocalizedStringType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="PhotoSizeType">
+      <xs:attribute name="id" type="PhotoSizeTypeEnum"/>
+      <xs:attribute name="url" type="xs:anyURI"/>
+   </xs:complexType>
+   <xs:complexType name="PhotoSizesType">
+      <xs:sequence>
+         <xs:element name="Size" type="PhotoSizeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="PhotoType">
+      <xs:all>
+         <xs:element name="Caption" type="xs:string" minOccurs="0"/>
+         <xs:element name="Sizes" type="PhotoSizesType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="PhotosType">
+      <xs:sequence>
+         <xs:element name="Photo" type="PhotoType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ProductType">
+      <xs:all>
+         <xs:element name="Source" type="xs:string" minOccurs="0"/>
+         <xs:element name="ExternalId" type="ExternalIdType"/>
+         <xs:element name="Name" type="xs:string" minOccurs="0"/>
+         <xs:element name="Names" minOccurs="0" type="NamesType"/>
+         <xs:element name="Description" type="xs:string" minOccurs="0"/>
+         <xs:element name="Descriptions" minOccurs="0" type="DescriptionsType"/>
+         <xs:element name="Brand" type="BrandType" minOccurs="0"/>
+         <xs:element name="Attributes" type="AttributesType" minOccurs="0"/>
+         <xs:element name="NumQuestions" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumAnswers" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumReviews" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumStories" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="Questions" type="QuestionsType" minOccurs="0"/>
+         <xs:element name="Stories" type="StoriesType" minOccurs="0"/>
+         <xs:element name="Category" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="CategoryItems" type="CategoryItemsType" minOccurs="0"/>
+         <xs:element name="ProductPageUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="ProductPageUrls" minOccurs="0" type="ProductPageUrlsType"/>
+         <xs:element name="ProductReviewsUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="ReviewsPageTitle" minOccurs="0" type="xs:string"/>
+         <xs:element name="ReviewsPageTitles" minOccurs="0" type="PageTitlesType"/>
+         <xs:element name="ReviewsPageMetaDescription" minOccurs="0" type="xs:string"/>
+         <xs:element name="ReviewsPageMetaDescriptions" minOccurs="0" type="MetaDescriptionsType"/>
+         <xs:element name="ProductQuestionsUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="ProductStoriesUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="ImageUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="ImageUrls" minOccurs="0" type="ImageUrlsType"/>
+         <xs:element name="ModelNumbers" minOccurs="0" type="ModelNumbersType"/>
+         <xs:element name="ManufacturerPartNumbers" minOccurs="0" type="ManufacturerPartNumbersType"/>
+         <xs:element name="EANs" minOccurs="0" type="EansType"/>
+         <xs:element name="UPCs" minOccurs="0" type="UpcsType"/>
+         <xs:element name="ISBNs" minOccurs="0" type="IsbnsType"/>
+         <xs:element name="ReviewStatistics" type="ReviewStatisticsType" minOccurs="0"/>
+         <xs:element name="NativeReviewStatistics" type="ReviewStatisticsType" minOccurs="0"/>
+         <xs:element name="Reviews" type="ReviewsType" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+      <xs:attribute name="removed" type="xs:boolean" default="false"/>
+      <xs:attribute name="disabled" type="xs:boolean" default="false"/>
+   </xs:complexType>
+   <xs:complexType name="ProductPageUrlsType">
+      <xs:sequence>
+         <xs:element name="ProductPageUrl" minOccurs="1" maxOccurs="unbounded"
+                     type="LocalizedUrlType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ProductReferencesType">
+      <xs:sequence>
+         <xs:element name="ProductReference" type="ProductReferenceType" minOccurs="1"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ProductReferenceType">
+      <xs:all>
+         <xs:element name="Product" type="ProductType"/>
+         <xs:element name="Caption" type="xs:string" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="QuestionType">
+      <xs:all>
+         <xs:element name="ModerationStatus" type="ModerationStatusType" minOccurs="0"/>
+         <xs:element name="LastModificationTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="SubmissionTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="NumFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumPositiveFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumNegativeFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumInappropriateFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="Badges" type="BadgesType" minOccurs="0"/>
+         <xs:element name="User" type="ReviewerType" minOccurs="0"/>
+         <xs:element name="UserNickname" type="xs:string" minOccurs="0"/>
+         <xs:element name="UserLocation" type="xs:string" minOccurs="0"/>
+         <xs:element name="ContextDataValues" type="ContextDataValuesType" minOccurs="0"/>
+         <xs:element name="Photos" type="PhotosType" minOccurs="0"/>
+         <xs:element name="Videos" type="VideosType" minOccurs="0"/>
+         <xs:element name="ProductReferences" type="ProductReferencesType" minOccurs="0"/>
+         <xs:element name="QuestionSummary" type="xs:string" minOccurs="0"/>
+         <xs:element name="QuestionDetails" type="xs:string" minOccurs="0"/>
+         <xs:element name="Tags" type="TagsType" minOccurs="0"/>
+         <xs:element name="AdditionalFields" type="AdditionalFieldsType" minOccurs="0"/>
+         <xs:element name="NumAnswers" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="Answers" type="AnswersType" minOccurs="0"/>
+         <xs:element name="UserEmailAddress" type="xs:string" minOccurs="0"/>
+         <xs:element name="SendEmailAlertWhenPublished" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="SendEmailAlertWhenAnswered" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="SendEmailAlertWhenAnsweredOptOutURL" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="IpAddress" type="xs:string" minOccurs="0"/>
+         <xs:element name="SessionParams" type="xs:string" minOccurs="0"/>
+         <xs:element name="DisplayLocale" type="LocaleType" minOccurs="0"/>
+         <xs:element name="CampaignId" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="ContentCodes" type="xs:string" minOccurs="0"/>
+         <xs:element name="OriginatingDisplayCode" type="DisplayCodeType" minOccurs="0"/>
+         <xs:element name="FirstPublishTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="LastPublishTime" type="xs:dateTime" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="QuestionsType">
+      <xs:sequence>
+         <xs:element name="Question" type="QuestionType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RatingDimensionType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType"/>
+         <xs:element name="RatingRange" type="xs:int"/>
+         <xs:element name="Label" type="xs:string" minOccurs="0"/>
+         <xs:element name="Label1" type="xs:string" minOccurs="0"/>
+         <xs:element name="Label2" type="xs:string" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType" use="required"/>
+      <xs:attribute name="displayType">
+         <xs:simpleType>
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="NORMAL"/>
+               <xs:enumeration value="SLIDER"/>
+               <xs:enumeration value="RADIO"/>
+            </xs:restriction>
+         </xs:simpleType>
+      </xs:attribute>
+   </xs:complexType>
+   <xs:complexType name="RatingDistributionItemType">
+      <xs:sequence>
+         <xs:element name="RatingValue" type="xs:int"/>
+         <xs:element name="Count" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RatingDistributionType">
+      <xs:sequence>
+         <xs:element name="RatingDistributionItem" type="RatingDistributionItemType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RatingValueType">
+      <xs:all>
+         <xs:element name="Rating" type="xs:int"/>
+         <xs:element name="Label" type="xs:string" minOccurs="0"/>
+         <xs:element name="RatingDimension" type="RatingDimensionType"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="RatingValuesType">
+      <xs:sequence>
+         <xs:element name="RatingValue" type="RatingValueType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ReviewStatisticsType">
+      <xs:all>
+         <xs:element name="AverageOverallRating" minOccurs="0" type="xs:float"/>
+         <xs:element name="OverallRatingRange" type="xs:int" minOccurs="0"/>
+         <xs:element name="TotalReviewCount" type="xs:int"/>
+         <xs:element name="RatingsOnlyReviewCount" type="xs:int" minOccurs="0"/>
+         <xs:element name="RecommendedCount" type="xs:int" minOccurs="0"/>
+         <xs:element name="AverageRatingValues" type="AverageRatingValuesType" minOccurs="0"/>
+         <xs:element name="RatingDistribution" type="RatingDistributionType" minOccurs="0"/>
+         <xs:element name="TagDistribution" type="TagDistributionType" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="ReviewType">
+      <xs:all>
+         <xs:element name="ModerationStatus" type="ModerationStatusType" minOccurs="0"/>
+         <xs:element name="LastModificationTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="Reviewer" type="ReviewerType" minOccurs="0"/>
+         <xs:element name="RatingsOnly" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="Title" type="xs:string" minOccurs="0"/>
+         <xs:element name="ReviewText" type="xs:string" minOccurs="0"/>
+         <xs:element name="ClientComments" type="ClientCommentsType" minOccurs="0"/>
+         <xs:element name="Pros" type="xs:string" minOccurs="0"/>
+         <xs:element name="Cons" type="xs:string" minOccurs="0"/>
+         <xs:element name="Tags" type="TagsType" minOccurs="0"/>
+         <xs:element name="AdditionalFields" type="AdditionalFieldsType" minOccurs="0"/>
+         <xs:element name="CampaignId" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="Rating" type="xs:int" minOccurs="0"/>
+         <xs:element name="RatingRange" type="xs:int" minOccurs="0"/>
+         <xs:element name="Recommended" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="NumFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumPositiveFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumNegativeFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumInappropriateFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="ReviewerNickname" type="xs:string" minOccurs="0"/>
+         <xs:element name="ReviewerLocation" type="xs:string" minOccurs="0"/>
+         <xs:element name="IpAddress" type="xs:string" minOccurs="0"/>
+         <xs:element name="DisplayLocale" type="LocaleType" minOccurs="0"/>
+         <xs:element name="SubmissionTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="Badges" type="BadgesType" minOccurs="0"/>
+         <xs:element name="ProductReviewsUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="Featured" type="xs:boolean"/>
+         <xs:element name="ContextDataValues" type="ContextDataValuesType" minOccurs="0"/>
+         <xs:element name="RatingValues" type="RatingValuesType" minOccurs="0"/>
+         <xs:element name="Photos" type="PhotosType" minOccurs="0"/>
+         <xs:element name="Videos" type="VideosType" minOccurs="0"/>
+         <xs:element name="ProductReferences" type="ProductReferencesType" minOccurs="0"/>
+         <xs:element name="Source" type="ContentSourceType" minOccurs="0"/>
+         <xs:element name="NetPromoterScore" type="xs:int" minOccurs="0"/>
+         <xs:element name="NetPromoterComment" type="xs:string" minOccurs="0"/>
+         <xs:element name="UserEmailAddress" type="xs:string" minOccurs="0"/>
+         <xs:element name="SendEmailAlertWhenPublished" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="SessionParams" type="xs:string" minOccurs="0"/>
+         <xs:element name="OriginatingDisplayCode" type="DisplayCodeType" minOccurs="0"/>
+         <xs:element name="ContentCodes" type="xs:string" minOccurs="0"/>
+         <xs:element name="ClientResponses" type="ClientResponsesType" minOccurs="0"/>
+         <xs:element name="FirstPublishTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="LastPublishTime" type="xs:dateTime" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+      <xs:attribute name="removed" type="xs:boolean" default="false"/>
+   </xs:complexType>
+   <xs:complexType name="ReviewerType">
+      <xs:all>
+         <xs:element name="ExternalId" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="DisplayName" type="xs:string" minOccurs="0"/>
+         <xs:element name="Anonymous" type="xs:boolean"/>
+         <xs:element name="HyperlinkingEnabled" type="xs:boolean"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="ReviewsType">
+      <xs:sequence>
+         <xs:element name="Review" type="ReviewType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="StoryType">
+      <xs:all>
+         <xs:element name="ModerationStatus" type="ModerationStatusType" minOccurs="0"/>
+         <xs:element name="LastModificationTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="SubmissionTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="NumFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumPositiveFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="NumNegativeFeedbacks" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="StoryRatingFeedback" type="ContentRatingFeedbackType" minOccurs="0"/>
+         <xs:element name="Badges" type="BadgesType" minOccurs="0"/>
+         <xs:element name="User" type="ReviewerType" minOccurs="0"/>
+         <xs:element name="UserNickname" type="xs:string" minOccurs="0"/>
+         <xs:element name="UserLocation" type="xs:string" minOccurs="0"/>
+         <xs:element name="ContextDataValues" type="ContextDataValuesType" minOccurs="0"/>
+         <xs:element name="Photos" type="PhotosType" minOccurs="0"/>
+         <xs:element name="Videos" type="VideosType" minOccurs="0"/>
+         <xs:element name="ProductReferences" type="ProductReferencesType" minOccurs="0"/>
+         <xs:element name="Title" type="xs:string" minOccurs="0"/>
+         <xs:element name="StoryText" type="xs:string" minOccurs="0"/>
+         <xs:element name="NumComments" type="NonNegativeInt" minOccurs="0"/>
+         <xs:element name="Comments" type="CommentsType" minOccurs="0"/>
+         <xs:element name="ClientResponses" type="ClientResponsesType" minOccurs="0"/>
+         <xs:element name="AdditionalFields" type="AdditionalFieldsType" minOccurs="0"/>
+         <xs:element name="UserEmailAddress" type="xs:string" minOccurs="0"/>
+         <xs:element name="SendEmailAlertWhenPublished" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="Highlighted" type="xs:boolean" minOccurs="0"/>
+         <xs:element name="IpAddress" type="xs:string" minOccurs="0"/>
+         <xs:element name="SessionParams" type="xs:string" minOccurs="0"/>
+         <xs:element name="DisplayLocale" type="LocaleType" minOccurs="0"/>
+         <xs:element name="CampaignId" type="ExternalIdType" minOccurs="0"/>
+         <xs:element name="ContentCodes" type="xs:string" minOccurs="0"/>
+         <xs:element name="OriginatingDisplayCode" type="DisplayCodeType" minOccurs="0"/>
+         <xs:element name="FirstPublishTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="LastPublishTime" type="xs:dateTime" minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="id" type="ExternalIdType"/>
+   </xs:complexType>
+   <xs:complexType name="StoriesType">
+      <xs:sequence>
+         <xs:element name="Story" type="StoryType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="TagDistributionItemType">
+      <xs:sequence>
+         <xs:element name="Label" type="xs:string"/>
+         <xs:element name="Count" type="xs:int"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="TagDistributionInDimensionType">
+      <xs:sequence>
+         <xs:element name="TagDistributionItem" type="TagDistributionItemType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="TagDistributionType">
+      <xs:sequence>
+         <xs:element name="TagDimension" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+               <xs:all>
+                  <xs:element name="ExternalId" type="ExternalIdType"/>
+                  <xs:element name="Label" type="xs:string" minOccurs="0"/>
+                  <xs:element name="TagDistributionItems" type="TagDistributionInDimensionType"/>
+               </xs:all>
+               <xs:attribute name="id" type="ExternalIdType" use="required"/>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="TagsInDimensionType">
+      <xs:sequence>
+         <xs:element name="Tag" type="TagType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="TagsType">
+      <xs:sequence>
+         <xs:element name="TagDimension" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+               <xs:all>
+                  <xs:element name="ExternalId" type="ExternalIdType"/>
+                  <xs:element name="Label" type="xs:string" minOccurs="0"/>
+                  <xs:element name="Tags" type="TagsInDimensionType"/>
+               </xs:all>
+               <xs:attribute name="id" type="ExternalIdType" use="required"/>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="TagType">
+      <xs:all>
+         <xs:element name="Label" type="xs:string"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="UpcsType">
+      <xs:sequence>
+         <xs:element name="UPC" minOccurs="1" maxOccurs="unbounded" type="UpcType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="VideoType">
+      <xs:all>
+         <xs:element name="Caption" type="xs:string" minOccurs="0"/>
+         <xs:element name="VideoHost" type="xs:string" minOccurs="0"/>
+         <xs:element name="VideoId" type="xs:string" minOccurs="0"/>
+         <xs:element name="RawUrl" type="xs:string" minOccurs="0"/>
+      </xs:all>
+   </xs:complexType>
+   <xs:complexType name="VideosType">
+      <xs:sequence>
+         <xs:element name="Video" type="VideoType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="DisplayCodeType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[a-zA-Z0-9_\-]+"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="EanType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9]{8}"/>
+         <xs:pattern value="[0-9]{13}"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ExternalIdType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[^/]+"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="IsbnType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9]{8,12}[0-9X]"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="LocaleType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[a-z]{2}(_[A-Z]{2}(_[0-9a-zA-Z_]+)?)?"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ModerationStatusType">
+      <xs:restriction base="xs:NMTOKEN">
+         <xs:enumeration value="NONE"/>
+         <xs:enumeration value="SUBMITTED"/>
+         <xs:enumeration value="APPROVED"/>
+         <xs:enumeration value="HOLD"/>
+         <xs:enumeration value="PENDING"/>
+         <xs:enumeration value="REJECTED"/>
+         <xs:enumeration value="REMOVEDBYCLIENT"/>
+         <xs:enumeration value="REMOVEDTEST"/>
+         <xs:enumeration value="AUTOMATEDHOLD"/>
+         <xs:enumeration value="EXPIRED"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="NonNegativeInt">
+      <xs:restriction base="xs:int">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="NonNegativeLong">
+      <xs:restriction base="xs:long">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PhotoSizeTypeEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="thumbnail"/>
+         <xs:enumeration value="normal"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PositiveInt">
+      <xs:restriction base="xs:int">
+         <xs:minInclusive value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ProductUniversalIdentifierType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="\S.*"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="UpcType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9]{6}"/>
+         <xs:pattern value="[0-9]{12}"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:element name="Feed" type="FeedType"/>
+</xs:schema>

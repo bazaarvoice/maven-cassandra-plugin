@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ************ GENERATED CONTENT ************ --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.bazaarvoice.com/PRR/SyndicationFeed/1.1" targetNamespace="http://www.bazaarvoice.com/PRR/SyndicationFeed/1.1"
+           elementFormDefault="qualified"><!-- ** Complex Types ****************************************************************************************** --><xs:complexType name="AverageRatingValueType">
+      <xs:sequence>
+         <xs:element name="AverageRating" type="xs:float"/>
+         <xs:element name="RatingDimension" type="RatingDimensionType"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:string"><!-- TODO: can this be xs:long? --></xs:attribute>
+   </xs:complexType>
+   <xs:complexType name="AverageRatingValuesType">
+      <xs:sequence>
+         <xs:element name="AverageRatingValue" type="AverageRatingValueType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="CategoryItemType">
+      <xs:sequence>
+         <xs:element name="CategoryId" type="NonNegativeLong"/>
+         <xs:element name="CategoryName" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="CategoryItemsType">
+      <xs:sequence>
+         <xs:element name="CategoryItem" type="CategoryItemType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ContextDataDimensionType">
+      <xs:sequence>
+         <xs:element name="ExternalId" type="xs:string"/>
+         <xs:element name="Label" type="xs:string"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:string" use="required"><!-- Contains the external ID, the same value as in the ExternalId element. --></xs:attribute>
+   </xs:complexType>
+   <xs:complexType name="ContextDataValueType">
+      <xs:sequence>
+         <xs:element name="ExternalId" type="xs:string"/>
+         <xs:element name="Label" type="xs:string"/>
+         <xs:element name="ContextDataDimension" type="ContextDataDimensionType"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:string" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="ContextDataValuesType">
+      <xs:sequence>
+         <xs:element name="ContextDataValue" type="ContextDataValueType" minOccurs="0"
+                     maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="FeedType">
+      <xs:sequence>
+         <xs:element name="Product" type="ProductType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="extractDate" type="xs:dateTime" use="required"/>
+   </xs:complexType>
+   <xs:complexType name="ProductType">
+      <xs:sequence>
+         <xs:element name="Source" type="xs:string" minOccurs="0"/>
+         <xs:element name="ExternalId" type="ExternalIdType"/>
+         <xs:element name="Name" type="xs:string" minOccurs="0"><!-- Product Schemas call this minOccurs="1". --></xs:element>
+         <xs:element name="Description" type="xs:string" minOccurs="0"/>
+         <xs:element name="Brand" type="xs:string" minOccurs="0"/>
+         <xs:element name="Category" type="xs:string" minOccurs="0"><!-- the externalCategoryID --></xs:element>
+         <xs:element name="CategoryItems" type="CategoryItemsType" minOccurs="0"/>
+         <xs:element name="ProductPageUrl" type="xs:anyURI" minOccurs="0"><!-- Syndication used to call this ProductUrl/ProductURL. --></xs:element>
+         <xs:element name="ProductReviewsUrl" type="xs:anyURI" minOccurs="0"><!-- the SVP landing page. --></xs:element>
+         <xs:element name="ImageUrl" type="xs:anyURI" minOccurs="0"/>
+         <xs:element name="SyndicationKey1" type="xs:string" minOccurs="0"><!-- can this be merged with SyndicationKey, used by the product feed? --></xs:element>
+         <xs:element name="ModelNumber" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element name="ManufacturerPartNumber" type="xs:string" minOccurs="0"
+                     maxOccurs="unbounded"/>
+         <xs:element name="EAN" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element name="UPC" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element name="ISBN" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element name="ReviewStatistics" type="ReviewStatisticsType" minOccurs="0"><!-- statistics only account for approved reviews --></xs:element>
+         <xs:element name="Reviews" type="ReviewsType" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:NMTOKEN" use="required"><!-- some Schemas called this a long --></xs:attribute>
+      <xs:attribute name="removed" type="xs:boolean" default="false"/>
+   </xs:complexType>
+   <xs:complexType name="RatingDimensionType">
+      <xs:sequence>
+         <xs:element name="ExternalId" type="xs:string"/>
+         <xs:element name="RatingRange" type="xs:int"/>
+         <xs:element name="Label1" type="xs:string" minOccurs="0"/>
+         <xs:element name="Label2" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:string" use="required"/>
+      <xs:attribute name="displayType">
+         <xs:simpleType>
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="NORMAL"/>
+               <xs:enumeration value="SLIDER"/>
+            </xs:restriction>
+         </xs:simpleType>
+      </xs:attribute>
+   </xs:complexType>
+   <xs:complexType name="RatingValueType">
+      <xs:sequence>
+         <xs:element name="Rating" type="xs:int"/>
+         <xs:element name="RatingDimension" type="RatingDimensionType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RatingValuesType">
+      <xs:sequence>
+         <xs:element name="RatingValue" type="RatingValueType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ReviewStatisticsType">
+      <xs:sequence>
+         <xs:element name="AverageOverallRating" type="xs:float"/>
+         <xs:element name="OverallRatingRange" type="xs:int"/>
+         <xs:element name="TotalReviewCount" type="xs:int"/>
+         <xs:element name="RatingsOnlyReviewCount" type="xs:int"/>
+         <xs:element name="RecommendedCount" type="xs:int"/>
+         <xs:element name="AverageRatingValues" type="AverageRatingValuesType"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ReviewType">
+      <xs:sequence>
+         <xs:element name="ModerationStatus" type="ModerationStatusType" minOccurs="0"/>
+         <xs:element name="LastModificationTime" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="RatingsOnly" type="xs:boolean" minOccurs="0"><!-- syndication sets minOccurs="0".--></xs:element>
+         <xs:element name="Title" type="xs:string" minOccurs="0"/>
+         <xs:element name="ReviewText" type="xs:string" minOccurs="0"/>
+         <xs:element name="Pros" type="xs:string" minOccurs="0"/>
+         <xs:element name="Cons" type="xs:string" minOccurs="0"/>
+         <xs:element name="Rating" type="xs:int" minOccurs="0"><!-- syndication sets minOccurs="0".--></xs:element>
+         <xs:element name="RatingRange" type="xs:int" minOccurs="0"><!-- syndication sets minOccurs="0".--></xs:element>
+         <xs:element name="Recommended" type="xs:boolean" minOccurs="0"><!-- syndication sets minOccurs="0".--></xs:element>
+         <xs:element name="NumFeedbacks" type="xs:int"/>
+         <xs:element name="NumPositiveFeedbacks" type="xs:int"/>
+         <xs:element name="NumNegativeFeedbacks" type="xs:int"/>
+         <xs:element name="ReviewerNickname" type="xs:string" minOccurs="0"/>
+         <xs:element name="ReviewerLocation" type="xs:string" minOccurs="0"/>
+         <xs:element name="SubmissionTime" type="xs:dateTime" minOccurs="0"><!-- syndication sets minOccurs="0".--></xs:element>
+         <xs:element name="ProductReviewsUrl" type="xs:anyURI" minOccurs="0"><!-- URL for the list of reviews with this one sorted to the top. --></xs:element>
+         <xs:element name="Featured" type="xs:boolean"/>
+         <xs:element name="ContextDataValues" type="ContextDataValuesType" minOccurs="0"></xs:element>
+         <xs:element name="RatingValues" type="RatingValuesType" minOccurs="0"></xs:element>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:NMTOKEN" use="required"><!-- some Schemas called this a long --></xs:attribute>
+      <xs:attribute name="removed" type="xs:boolean" default="false"/>
+   </xs:complexType>
+   <xs:complexType name="ReviewsType">
+      <xs:sequence>
+         <xs:element name="Review" type="ReviewType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <!-- ** Groups ************************************************************************************************* --><!-- ** Simple Types ******************************************************************************************* --><xs:simpleType name="ModerationStatusType">
+      <xs:restriction base="xs:NMTOKEN">
+         <xs:enumeration value="NONE"/>
+         <xs:enumeration value="APPROVED"/>
+         <xs:enumeration value="HOLD"/>
+         <xs:enumeration value="PENDING"/>
+         <xs:enumeration value="REJECTED"/>
+         <xs:enumeration value="REMOVEDBYCLIENT"/>
+         <xs:enumeration value="REMOVEDTEST"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="ExternalIdType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[a-zA-Z0-9*|._\-]+"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="NonNegativeInt">
+      <xs:restriction base="xs:int">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="NonNegativeLong">
+      <xs:restriction base="xs:long">
+         <xs:minInclusive value="0"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="PositiveInt">
+      <xs:restriction base="xs:int">
+         <xs:minInclusive value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <!-- ** Attribute Groups *************************************************************************************** --><!-- ** Top-level Elements ************************************************************************************* --><xs:element name="Feed" type="FeedType"/>
+</xs:schema>
