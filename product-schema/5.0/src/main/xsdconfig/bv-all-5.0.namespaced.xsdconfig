@@ -3,8 +3,8 @@
 
     <!-- The "namespace" element maps a namespace to the Java package names that should be generated. -->
 
-	<xb:namespace uri="http://www.bazaarvoice.com/xs/InternalAllXmlBeans/4.8">
-		<xb:package>com.bazaarvoice.cca.xml.xmlbean</xb:package>
+	<xb:namespace uri="http://www.bazaarvoice.com/xs/InternalAllXmlBeans/5.0">
+		<xb:package>com.bazaarvoice.cca.xml.xmlbean.v5_0</xb:package>
 	</xb:namespace>
 
 </xb:config>

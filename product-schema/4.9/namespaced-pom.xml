@@ -1,0 +1,22 @@
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.bazaarvoice.product.schema</groupId>
+        <artifactId>product-schema-namespaced-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../parent/namespaced-pom.xml</relativePath>
+    </parent>
+
+    <artifactId>product-schema-namespaced-4.9</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <xml.version>4.9</xml.version>
+    </properties>
+
+</project>

@@ -6,14 +6,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.bazaarvoice</groupId>
-        <artifactId>schema-internal-parent</artifactId>
-        <version>1.3-SNAPSHOT</version>
+        <groupId>com.bazaarvoice.product.schema</groupId>
+        <artifactId>product-schema-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>com.bazaarvoice</groupId>
-    <artifactId>schema-internal-old</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <artifactId>product-schema-old</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
 </project>
