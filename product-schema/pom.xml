@@ -26,8 +26,6 @@
         <module>4.9</module>
         <module>5.0</module>
         <module>5.1</module>
-        <module>tip</module>
-        <module>api</module>
     </modules>
 
 </project>

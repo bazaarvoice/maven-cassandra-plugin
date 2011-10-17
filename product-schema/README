@@ -1,5 +1,7 @@
 The INTERNAL SCHEMA subsystem hosts xmlbeans-generated artifacts for api ("internal") schemas.
 
+todo - why is there no reactor pom?
+
 *** RELEASING ***
 
 Note that the module names encapsulate the *product version* but that each module is versioned seprately
