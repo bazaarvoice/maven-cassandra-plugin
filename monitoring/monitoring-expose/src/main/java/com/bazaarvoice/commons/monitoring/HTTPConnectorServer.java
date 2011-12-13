@@ -4,6 +4,8 @@ import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
 import com.sun.jersey.api.core.ApplicationAdapter;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.management.MBeanServer;
 import javax.management.remote.JMXConnectorServer;
@@ -14,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HTTPConnectorServer extends JMXConnectorServer {
+
+    private static final Logger _logger = LoggerFactory.getLogger(HTTPConnectorServer.class);
 
     private JMXServiceURL _url;
     private Map<String, ?> _attributes;
@@ -49,6 +53,7 @@ public class HTTPConnectorServer extends JMXConnectorServer {
             ApplicationAdapter app = new ApplicationAdapter(_application);
             _grizz = GrizzlyServerFactory.createHttpServer("http://" + _url.getHost() + ":" + _url.getPort() + _url.getURLPath(), app);
         }
+        _logger.info("Starting monitoring server on port {}", _url.getPort());
         _grizz.start();
     }
 
