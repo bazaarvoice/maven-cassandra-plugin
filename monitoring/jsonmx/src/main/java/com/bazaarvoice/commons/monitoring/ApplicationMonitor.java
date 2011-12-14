@@ -5,19 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanRegistrationException;
 import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
 import javax.management.MalformedObjectNameException;
-import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 import javax.ws.rs.core.Application;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class ApplicationMonitor {
@@ -61,12 +55,19 @@ public class ApplicationMonitor {
     }
 
     public ApplicationMonitor(String host, int port, MBeanServer server) {
-        this(host + ":" + port, server);
+        // Will throw exception if host or port are not valid
+        URI.create("http://" + host + ":" + port);
+        this._server = server;
+        this._host = host;
+        this._port = port;
     }
 
     public ApplicationMonitor(String url, MBeanServer server) {
+        if(url.split(":").length > 2) {
+            throw new IllegalArgumentException("Host must not contain scheme");
+        }
         this._server = server;
-        URI uri = URI.create(url);
+        URI uri = URI.create("http://" + url);
         this._host = uri.getHost();
         if(this._host == null) {
             this._host = NetworkListener.DEFAULT_NETWORK_HOST;
@@ -75,6 +76,16 @@ public class ApplicationMonitor {
         if(this._port < 0) {
             this._port = DEFAULT_PORT;
         }
+    }
+
+    public void setHost(String host) {
+        // Will throw exception if host is not valid
+        URI.create("http://" + host + ":" + _port);
+        _host = host;
+    }
+
+    public void setPort(int port) {
+        _port = port;
     }
 
     public void setServer(MBeanServer server) {

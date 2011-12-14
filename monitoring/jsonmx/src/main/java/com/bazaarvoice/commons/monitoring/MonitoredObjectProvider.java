@@ -30,7 +30,7 @@ public class MonitoredObjectProvider {
     }
 
     public MonitoredObjectProvider() {
-        this(ManagementFactory.getPlatformMBeanServer());
+        this(MBeanServerLocator.findMBeanServer());
     }
 
     public void setServer(MBeanServerConnection server) {

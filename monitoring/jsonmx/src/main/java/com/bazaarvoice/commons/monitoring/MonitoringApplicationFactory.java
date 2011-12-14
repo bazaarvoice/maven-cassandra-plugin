@@ -16,7 +16,7 @@ public class MonitoringApplicationFactory {
 
     public static Application createMonitoringApplication(MBeanServer server) {
         if (server == null) {
-            server = ManagementFactory.getPlatformMBeanServer();
+            server = MBeanServerLocator.findMBeanServer();
         }
         MonitoringApplication application = new MonitoringApplication();
         MonitoredObjectProvider provider = new MonitoredObjectProvider(server);
