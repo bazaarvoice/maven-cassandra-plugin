@@ -1,6 +1,5 @@
 package com.bazaarvoice.commons.monitoring;
 
-import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
@@ -16,7 +15,7 @@ public class CompositeDataSerializer extends SerializerBase<CompositeData> {
     }
 
     public CompositeDataSerializer() {
-        super(CompositeData.class);
+        this(CompositeData.class);
     }
 
     @Override

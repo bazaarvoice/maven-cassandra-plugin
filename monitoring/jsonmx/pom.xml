@@ -4,14 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bazaarvoice.commons.monitoring</groupId>
-    <artifactId>monitoring-expose</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <parent>
         <groupId>com.bazaarvoice.commons</groupId>
         <artifactId>bv-super-pom</artifactId>
         <version>1.9</version>
     </parent>
+
+    <groupId>com.bazaarvoice.commons.monitoring</groupId>
+    <artifactId>jsonmx</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
     <packaging>pom</packaging>
 
     <scm>

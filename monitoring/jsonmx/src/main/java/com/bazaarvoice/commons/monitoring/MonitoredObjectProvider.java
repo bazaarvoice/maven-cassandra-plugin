@@ -1,5 +1,8 @@
 package com.bazaarvoice.commons.monitoring;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.management.Attribute;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanInfo;
@@ -7,6 +10,7 @@ import javax.management.MBeanServerConnection;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,10 +21,16 @@ public class MonitoredObjectProvider {
 
     // TODO: Devise grouping strategy
 
+    private static final Logger _logger = LoggerFactory.getLogger(MonitoredObjectProvider.class);
+
     private MBeanServerConnection _server;
 
     public MonitoredObjectProvider(MBeanServerConnection server) {
         _server = server;
+    }
+
+    public MonitoredObjectProvider() {
+        this(ManagementFactory.getPlatformMBeanServer());
     }
 
     public void setServer(MBeanServerConnection server) {
@@ -29,9 +39,8 @@ public class MonitoredObjectProvider {
 
     private ObjectName toObjectName(String objectName) {
         try {
-            return new ObjectName(objectName);
+            return ObjectName.getInstance(objectName);
         } catch (MalformedObjectNameException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -43,7 +52,7 @@ public class MonitoredObjectProvider {
                 names.add(objectName.toString());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            _logger.warn("Unable to retrieve MBeans from MBeanServer", e);
             return null;
         }
         return names;
@@ -54,7 +63,7 @@ public class MonitoredObjectProvider {
         try {
             info = _server.getMBeanInfo(toObjectName(objectName));
         } catch (Exception e) {
-            e.printStackTrace();
+            _logger.warn("Unable to retrieve MBean attribute names for {}", objectName);
             return null;
         }
         Set<String> attributeNames = new HashSet<String>();
@@ -72,7 +81,7 @@ public class MonitoredObjectProvider {
                 attributes.put(one.getName(), one.getValue());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            _logger.warn("Unable to get MBean attributes for {}", objectName);
             return null;
         }
         return attributes;

@@ -2,7 +2,7 @@ package com.bazaarvoice.commons.monitoring;
 
 import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
 import com.sun.jersey.api.core.ApplicationAdapter;
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+import com.sun.jersey.api.core.ResourceConfig;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +12,7 @@ import javax.management.remote.JMXConnectorServer;
 import javax.management.remote.JMXServiceURL;
 import javax.ws.rs.core.Application;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,25 +23,38 @@ public class HTTPConnectorServer extends JMXConnectorServer {
     private JMXServiceURL _url;
     private Map<String, ?> _attributes;
     private HttpServer _grizz;
-    private Application _application;
+    private ResourceConfig _application;
 
     public HTTPConnectorServer(JMXServiceURL jmxServiceURL, Map<String, ?> environment, MBeanServer mBeanServer) {
         super(mBeanServer);
         this._url = jmxServiceURL;
         this._attributes = new HashMap<String, Object>(environment);
         if (_attributes.containsKey("jerseyApplication")) {
-            this._application = (Application) _attributes.remove("jerseyApplication");
+            Object application = _attributes.remove("jerseyApplication");
+            if(application != null && application instanceof Application) {
+                if(application instanceof ResourceConfig) {
+                    this._application = (ResourceConfig) application;
+                }
+                else {
+                    this._application = new ApplicationAdapter((Application) application);
+                }
+            }
         }
-        if (mBeanServer == null) {
+    }
 
-        } else {
-            MonitoringApplication application = new MonitoringApplication();
-            MonitoredObjectProvider provider = new MonitoredObjectProvider(mBeanServer);
-            MonitoredObjectView view = new MonitoredObjectView();
-            view.setProvider(provider);
-            application.addSingletons(view, new JacksonJsonProvider(MonitoringObjectMapperFactory.createObjectMapper()));
-            this._application = application;
+    public HTTPConnectorServer(String host, int port, MBeanServer mBeanServer, Application application)
+            throws MalformedURLException {
+        super(mBeanServer);
+        _url = new JMXServiceURL("http", host, port);
+        _attributes = new HashMap<String, Object>();
+        if(application != null && application instanceof ResourceConfig) {
+            this._application = (ResourceConfig) application;
         }
+    }
+
+    public HTTPConnectorServer(String host, int port)
+            throws MalformedURLException {
+        this(host, port, null, null);
     }
 
     @Override
@@ -49,9 +63,11 @@ public class HTTPConnectorServer extends JMXConnectorServer {
         if (isActive()) {
             return;
         }
+        if(_application == null) {
+            _application = MonitoringApplicationFactory.createMonitoringResourceConfig(getMBeanServer());
+        }
         if (_grizz == null) {
-            ApplicationAdapter app = new ApplicationAdapter(_application);
-            _grizz = GrizzlyServerFactory.createHttpServer("http://" + _url.getHost() + ":" + _url.getPort() + _url.getURLPath(), app);
+            _grizz = GrizzlyServerFactory.createHttpServer("http://" + _url.getHost() + ":" + _url.getPort() + _url.getURLPath(), _application);
         }
         _logger.info("Starting monitoring server on port {}", _url.getPort());
         _grizz.start();
@@ -80,4 +96,5 @@ public class HTTPConnectorServer extends JMXConnectorServer {
     public Map<String, ?> getAttributes() {
         return _attributes;
     }
+
 }
