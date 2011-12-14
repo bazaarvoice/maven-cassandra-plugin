@@ -12,7 +12,7 @@
     <artifactId>jsonmx</artifactId>
     <version>1.3-SNAPSHOT</version>
 
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <scm>
         <connection>scm:svn:https://dev.bazaarvoice.com/svn/bvc/commons/trunk/monitoring/jsonmx</connection>
