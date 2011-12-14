@@ -17,7 +17,7 @@
     <packaging>pom</packaging>
 
     <scm>
-        <connection>scm:svn:https://dev.bazaarvoice.com/svn/bvc/commons/trunk/monitoring/monitoring-expose</connection>
+        <connection>scm:svn:https://dev.bazaarvoice.com/svn/bvc/commons/trunk/monitoring/jsonmx</connection>
     </scm>
 
     <dependencies>
