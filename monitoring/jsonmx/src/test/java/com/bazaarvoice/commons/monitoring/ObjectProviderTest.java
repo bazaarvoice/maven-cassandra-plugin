@@ -1,5 +1,6 @@
 package com.bazaarvoice.commons.monitoring;
 
+import com.bazaarvoice.commons.monitoring.core.MonitoredObjectProvider;
 import com.google.common.collect.Iterables;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.annotations.Test;
@@ -10,8 +11,10 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.util.Map;
+import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 @Test
 public class ObjectProviderTest {
@@ -19,14 +22,18 @@ public class ObjectProviderTest {
     public void testObjectProvider() throws Exception {
         MBeanServer server = ManagementFactory.getPlatformMBeanServer();
         MonitoredObjectProvider provider = new MonitoredObjectProvider(server);
-
-        ObjectName name = new ObjectName("test:type=TestBean");
+        String name = "test:type=TestBean";
+        ObjectName objectName = new ObjectName(name);
         Test bean = new Test();
-        server.registerMBean(bean, name);
-
-        Map.Entry<String, Map<String, Object>> object = provider.getObject(name.getCanonicalName());
-        assertEquals(object.getKey(), "test:type=TestBean");
-        assertEquals(object.getValue().get("CacheSize"), 100);
+        server.registerMBean(bean, objectName);
+        Set<String> objectNames = provider.getObjectNames();
+        assertTrue(objectNames.contains(name));
+        Set<String> attributeNames = provider.getAttributeNames(name);
+        assertTrue(attributeNames.contains("CacheSize"));
+        Map<String, Object> object = provider.getAttributes(name);
+        assertEquals(object.get("CacheSize"), 100);
+        Map<String, Map<String, Object>> objects = provider.getObjects();
+        assertEquals(objects.get(name).get("CacheSize"), 100);
     }
 
     private Attribute getOneAttribute(ObjectMapper mapper, MBeanServer server, ObjectName name) throws Exception {

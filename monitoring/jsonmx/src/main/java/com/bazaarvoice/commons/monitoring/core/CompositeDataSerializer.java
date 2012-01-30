@@ -1,4 +1,4 @@
-package com.bazaarvoice.commons.monitoring;
+package com.bazaarvoice.commons.monitoring.core;
 
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.SerializerProvider;
@@ -8,14 +8,13 @@ import javax.management.openmbean.CompositeData;
 import java.io.IOException;
 import java.util.Set;
 
+/**
+ * Json serializer for {@link CompositeData} attributes used by {@link javax.management.MXBean MXBean}s.
+ */
 public class CompositeDataSerializer extends SerializerBase<CompositeData> {
 
-    protected CompositeDataSerializer(Class<CompositeData> t) {
-        super(t);
-    }
-
     public CompositeDataSerializer() {
-        this(CompositeData.class);
+        super(CompositeData.class);
     }
 
     @Override

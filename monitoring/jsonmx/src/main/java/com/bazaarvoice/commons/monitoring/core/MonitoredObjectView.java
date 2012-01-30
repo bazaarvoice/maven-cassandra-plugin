@@ -1,7 +1,7 @@
-package com.bazaarvoice.commons.monitoring;
+package com.bazaarvoice.commons.monitoring.core;
 
+import com.google.common.collect.ImmutableMap;
 import com.sun.jersey.spi.resource.Singleton;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -13,10 +13,16 @@ import java.util.Set;
 @Path ("/")
 public class MonitoredObjectView {
 
-    private MonitoredObjectProvider _provider;
+    private final MonitoredObjectProvider _provider;
 
-    public void setProvider(MonitoredObjectProvider provider) {
+    public MonitoredObjectView(MonitoredObjectProvider provider) {
         this._provider = provider;
+    }
+    
+    @GET
+    @Produces("application/json")
+    public Map<String, String> getRoot() {
+        return ImmutableMap.of("data", "objects/", "metadata", "info/");
     }
 
     @GET
