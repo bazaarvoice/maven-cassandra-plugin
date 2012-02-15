@@ -2,6 +2,7 @@ package com.bazaarvoice.commons.monitoring.core;
 
 import com.bazaarvoice.commons.monitoring.transform.DefaultMonitoringDataTransform;
 import com.bazaarvoice.commons.monitoring.transform.MonitoringDataTransform;
+import com.bazaarvoice.commons.monitoring.transform.TomcatTransform;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +37,14 @@ public class MonitoredObjectProvider {
 
     private final MBeanServerConnection _server;
     private final LinkedList<MonitoringDataTransform> _transforms;
+    private final TomcatTransform _defaultTomcatTransform;
 
     public MonitoredObjectProvider(MBeanServerConnection server) {
         _server = server;
         _transforms = new LinkedList<MonitoringDataTransform>();
         _transforms.add(new DefaultMonitoringDataTransform(_server));
+        _defaultTomcatTransform = new TomcatTransform(_server);
+        _transforms.add(_defaultTomcatTransform);
     }
 
     public MonitoredObjectProvider() {
@@ -54,6 +58,9 @@ public class MonitoredObjectProvider {
     public void addTransform(MonitoringDataTransform transform) {
         if (transform != null) {
             _transforms.add(transform);
+            if (transform instanceof TomcatTransform) {
+                _transforms.remove(_defaultTomcatTransform);
+            }
         }
     }
 

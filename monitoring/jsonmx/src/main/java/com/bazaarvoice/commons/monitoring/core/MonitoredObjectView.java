@@ -14,9 +14,11 @@ import java.util.Set;
 public class MonitoredObjectView {
 
     private final MonitoredObjectProvider _provider;
+    private final ObjectGraphWalkerFactory _walkerFactory;
 
-    public MonitoredObjectView(MonitoredObjectProvider provider) {
+    public MonitoredObjectView(MonitoredObjectProvider provider, ObjectGraphWalkerFactory walkerFactory) {
         this._provider = provider;
+        _walkerFactory = walkerFactory;
     }
     
     @GET
@@ -46,10 +48,37 @@ public class MonitoredObjectView {
         return _provider.getAttributeNames(objectName);
     }
 
+    @Path("objects/{objectName}/{attributeName}")
+    public TraversableObjectView getAttribute(@PathParam("objectName") String objectName, @PathParam("attributeName") String attributeName) {
+        return new TraversableObjectView(_walkerFactory.create(getAttributes(objectName).get(attributeName)));
+    }
+
     @GET
     @Path("objects/{objectName}")
     @Produces("application/json")
     public Map<String, Object> getAttributes(@PathParam("objectName") String objectName) {
         return _provider.getAttributes(objectName);
+    }
+
+    public class TraversableObjectView {
+        private final ObjectGraphWalker _walker;
+
+        private TraversableObjectView(ObjectGraphWalker walker) {
+            _walker = walker;
+        }
+
+        @GET
+        @Produces("application/json")
+        public Object getValue() {
+            return _walker.getValue();
+        }
+
+        @Path("{child}")
+        public TraversableObjectView getChild(@PathParam("child") String name) {
+            if(_walker.getChild(name) == null) {
+                return null;
+            }
+            return new TraversableObjectView(_walker.getChild(name));
+        }
     }
 }

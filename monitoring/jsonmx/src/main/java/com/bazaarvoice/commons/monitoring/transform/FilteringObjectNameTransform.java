@@ -1,5 +1,7 @@
 package com.bazaarvoice.commons.monitoring.transform;
 
+import com.bazaarvoice.commons.monitoring.core.MBeanServerUtils;
+
 import javax.management.MBeanServerConnection;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
@@ -36,11 +38,7 @@ public class FilteringObjectNameTransform extends ObjectNameTransform {
 
     @Override
     public boolean isIntercepted(String name) {
-        try {
-            return matches(ObjectName.getInstance(name));
-        } catch (MalformedObjectNameException e) {
-            return false;
-        }
+        return matches(MBeanServerUtils.toObjectName(name));
     }
 
     /**

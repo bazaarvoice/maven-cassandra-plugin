@@ -3,6 +3,7 @@ package com.bazaarvoice.commons.monitoring.core;
 import com.sun.jersey.api.core.ApplicationAdapter;
 import com.sun.jersey.api.core.ResourceConfig;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import javax.management.MBeanServer;
 
@@ -23,8 +24,11 @@ public final class MonitoringApplicationFactory {
     public static MonitoringApplication createMonitoringApplication(MBeanServer server) {
         MonitoredObjectProvider provider = new MonitoredObjectProvider(server);
         MonitoringApplication application = new MonitoringApplication(provider);
-        MonitoredObjectView view = new MonitoredObjectView(provider);
-        application.addSingletons(view, new JacksonJsonProvider(MonitoringObjectMapperFactory.createObjectMapper()));
+        ObjectMapper mapper = MonitoringObjectMapperFactory.createObjectMapper();
+        ObjectGraphWalkerFactory walkerFactory = new ObjectGraphWalkerFactory(mapper);
+        MonitoredObjectView view = new MonitoredObjectView(provider, walkerFactory);
+        JacksonJsonProvider jsonProvider = new JacksonJsonProvider(mapper);
+        application.addSingletons(view, jsonProvider);
         return application;
     }
 

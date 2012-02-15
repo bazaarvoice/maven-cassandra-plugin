@@ -1,5 +1,6 @@
 package com.bazaarvoice.commons.monitoring.transform;
 
+import com.bazaarvoice.commons.monitoring.core.MBeanServerUtils;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -60,9 +61,8 @@ public abstract class ObjectNameTransform extends AbstractMonitoringDataTransfor
             this.postfix = postfix;
         }
 
-        private ObjectName buildObjectName(String data)
-                throws MalformedObjectNameException {
-            return ObjectName.getInstance(prefix + data + postfix);
+        private ObjectName buildObjectName(String data) {
+            return MBeanServerUtils.toObjectName(prefix + data + postfix);
         }
     }
 
@@ -133,11 +133,13 @@ public abstract class ObjectNameTransform extends AbstractMonitoringDataTransfor
             String key = param.name().toLowerCase();
             String value = params.get(key);
             if (value != null) {
-                try {
+                ObjectName objectName = param.buildObjectName(value);
+                if (objectName != null) {
                     include(param.buildObjectName(value));
                     params.remove(key);
-                } catch (MalformedObjectNameException e) {
-                    _logger.warn("Unable to build ObjectName from " + key + " " + value, e);
+                }
+                else {
+                    _logger.warn("Unable to build ObjectName from " + key + " " + value);
                 }
             }
         }

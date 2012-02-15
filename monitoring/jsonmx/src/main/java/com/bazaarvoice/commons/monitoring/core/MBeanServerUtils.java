@@ -9,6 +9,7 @@ import javax.management.MBeanInfo;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerConnection;
 import javax.management.MBeanServerFactory;
+import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
@@ -92,6 +93,22 @@ public final class MBeanServerUtils {
      */
     public static Map<String, Object> getReadableAttributesAsMap(ObjectName objectName, MBeanServerConnection mBeanServer) {
         return getAttributesAsMap(objectName, getReadableAttributeNames(objectName, mBeanServer), mBeanServer);
+    }
+
+    /**
+     * Converts a {@code String} representation of an {@code ObjectName} into an actual {@code ObjectName}.
+     * Returns {@code null} on invalid input rather than throw an exception.
+     * {@code name} can be a pattern, in which case the created {@code ObjectName} will be as well.
+     * @param name a {@code String} representation of an {@code ObjectName}.
+     * @return an {@code ObjectName} built from the given {@code name}, or {@code null} if {@code name} is not a valid {@code ObjectName}.
+     */
+    public static ObjectName toObjectName(String name) {
+        try {
+            return ObjectName.getInstance(name);
+        } catch (MalformedObjectNameException e) {
+            _logger.warn("Invalid ObjectName " + name, e);
+        }
+        return null;
     }
     
 }

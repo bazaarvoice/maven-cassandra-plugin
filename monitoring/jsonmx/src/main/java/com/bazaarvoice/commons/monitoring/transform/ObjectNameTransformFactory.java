@@ -24,6 +24,7 @@ public final class ObjectNameTransformFactory {
                                                                                               "distinguishingproperty", "type",
                                                                                               "attributenamingproperty", "name")
                                                                              );
+    public static final TransformInfo TOMCAT_TRANSFORM = new TransformInfo("tomcat", TomcatTransform.class);
 
     private final Map<String, TransformInfo> _registry;
     private final MBeanServerConnection _mBeanServer;
@@ -55,6 +56,7 @@ public final class ObjectNameTransformFactory {
         _registry.put(FILTER_TRANSFORM.verb, FILTER_TRANSFORM);
         _registry.put(GROUP_TRANSFORM.verb, GROUP_TRANSFORM);
         _registry.put(JVM_GROUP_TRANSFORM.verb, JVM_GROUP_TRANSFORM);
+        _registry.put(TOMCAT_TRANSFORM.verb, TOMCAT_TRANSFORM);
     }
 
     /**

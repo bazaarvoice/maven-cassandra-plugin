@@ -156,11 +156,7 @@ public class GroupingObjectNameTransform  extends ObjectNameTransform {
         String group = name.substring(_baseName.length());
         ObjectName query = null;
         if (!Strings.isNullOrEmpty(group)) {
-            try {
-                query = ObjectName.getInstance("*:" + _distinguishingProperty + "=" + group + ",*");
-            } catch (MalformedObjectNameException e) {
-                return null;
-            }
+            query = MBeanServerUtils.toObjectName("*:" + _distinguishingProperty + "=" + group + ",*");
         }
         return matchingNames(query);
     }
