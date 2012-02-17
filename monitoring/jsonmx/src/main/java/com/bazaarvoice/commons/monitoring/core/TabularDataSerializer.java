@@ -36,7 +36,7 @@ public class TabularDataSerializer extends SerializerBase<TabularData> {
             CompositeData data = (CompositeData) row;
             map.put(unwrapIfSingular(data.getAll(indices)), unwrapIfSingular(data.getAll(values)));
         }
-        jgen.writeObject(map);
+        provider.defaultSerializeValue(map, jgen);
     }
     
     private Object unwrapIfSingular(Object[] array) {

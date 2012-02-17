@@ -25,7 +25,7 @@ public class CompositeDataSerializer extends SerializerBase<CompositeData> {
         Object[] values = value.getAll(keys);
         jgen.writeStartObject();
         for (int i = 0; i < keys.length; ++i) {
-            jgen.writeObjectField(keys[i], values[i]);
+            provider.defaultSerializeField(keys[i], values[i], jgen);
         }
         jgen.writeEndObject();
     }
