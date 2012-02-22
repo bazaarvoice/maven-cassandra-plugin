@@ -33,3 +33,6 @@ you can hit the following URLs:
 
 1. objects/jvm.Runtime - just the data for the jvm.Runtime object.
 2. info/jvm.Runtime - a list of attribute names for the jvm.Runtime object.
+
+
+Note that the Json serialization currently performs no cycle detection, so be cautious of POJO JMX attributes with cyclic references.
