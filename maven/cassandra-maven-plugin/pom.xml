@@ -30,7 +30,7 @@ under the License.
     </parent>
 
     <artifactId>cassandra-maven-plugin</artifactId>
-    <version>1.1.1-1-SNAPSHOT</version>
+    <version>1.1.1-1</version>
     <packaging>maven-plugin</packaging>
 
     <name>BV Customized Version of Mojo's Cassandra Maven Plugin</name>
@@ -75,7 +75,7 @@ under the License.
     </prerequisites>
 
     <scm>
-        <connection>scm:svn:https://dev.bazaarvoice.com/svn/bvc/commons/trunk/maven/cassandra-maven-plugin</connection>
+        <connection>scm:svn:https://dev.bazaarvoice.com/svn/bvc/commons/tags/cassandra-maven-plugin-1.1.1-1</connection>
     </scm>
 
     <issueManagement>
