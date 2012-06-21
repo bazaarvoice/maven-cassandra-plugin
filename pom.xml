@@ -75,7 +75,7 @@ under the License.
     </prerequisites>
 
     <scm>
-        <connection>scm:svn:https://dev.bazaarvoice.com/svn/bvc/commons/trunk/maven/cassandra-maven-plugin</connection>
+        <connection>scm:git:git@github.com:bazaarvoice/maven-cassandra-plugin.git</connection>
     </scm>
 
     <issueManagement>
