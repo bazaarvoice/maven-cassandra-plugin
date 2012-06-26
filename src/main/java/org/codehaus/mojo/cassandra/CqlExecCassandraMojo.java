@@ -192,7 +192,7 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
    */
   private List<CqlExecOperationResult> doExec(List<String> cqlStatements) throws MojoExecutionException
   {
-      CqlExecOperation cqlOp = new CqlExecOperation(rpcAddress, rpcPort, cqlStatements);
+      CqlExecOperation cqlOp = new CqlExecOperation(rpcAddress, rpcPort, cqlVersion, cqlStatements);
       if ( StringUtils.isNotBlank(keyspace)) {
           getLog().info("setting keyspace: " + keyspace);
           cqlOp.setKeyspace(keyspace);
