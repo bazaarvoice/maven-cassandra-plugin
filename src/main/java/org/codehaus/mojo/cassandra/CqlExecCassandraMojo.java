@@ -20,6 +20,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,6 +33,13 @@ import java.util.List;
  * @phase pre-integration-test
  */
 public class CqlExecCassandraMojo extends AbstractCassandraMojo {
+
+	/** 
+ 	 * The CQL version that the provided cqlScript or cqlStatement should be interpreted with 
+ 	 * 
+ 	 * @parameter expression="${cql.cqlVersion}" default-value="3.0.0" 
+ 	 */ 
+ 	protected String cqlVersion;
 
     /**
      * The name of a keyspace which, if present, indicates to skip running the cqlStatement or cqlScript
@@ -122,7 +130,6 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
       {
           throw new MojoExecutionException("Could not parse comparator value: " + comparator, e);
       }
-      List<CqlExecOperation> cqlOps = new ArrayList<CqlExecOperation>();
       if (cqlScript != null && cqlScript.isFile())
       {
           FileReader fr = null;
@@ -149,32 +156,24 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
       {
           // TODO accept keyFormat, columnFormat, valueFormat
           // ^ are these relevant on file load?
-          if (cqlStatement.contains(";"))
-          {
-              for (String op : StringUtils.split(cqlStatement, ";"))
-              {
-                  cqlOps.add(doExec(op));
-              }
-          } else
-          {
-              cqlOps.add(doExec(cqlStatement));
-          }
-          printResults(cqlOps);
+          List<CqlExecOperationResult> cqlOpResults = doExec(Arrays.asList(StringUtils.split(cqlStatement, ";"))); 
+          
+          printResults(cqlOpResults);
       }
   }
   
   /*
    * Encapsulate print of CqlResult. Uses specified configuration options to format results
    */
-  private void printResults(List<CqlExecOperation> cqlOps)
+  private void printResults(List<CqlExecOperationResult> cqlOpResults)
   {
       // TODO fix ghetto formatting
       getLog().info("-----------------------------------------------");
-      for (CqlExecOperation cqlExecOperation : cqlOps)
+      for (CqlExecOperationResult cqlExecOperationResult : cqlOpResults)
       {          
-          while ( cqlExecOperation.hasNext() )
+          while ( cqlExecOperationResult.hasNext() )
           {
-              CqlRow cqlRow = cqlExecOperation.next();
+              CqlRow cqlRow = cqlExecOperationResult.next();
               getLog().info("Row key: "+keyValidatorVal.getString(cqlRow.key));
               getLog().info("-----------------------------------------------");
               for (Column column : cqlRow.getColumns() )
@@ -191,48 +190,73 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
   /*
    * Encapsulate op execution for file vs. statement
    */
-  private CqlExecOperation doExec(String cqlStatement) throws MojoExecutionException 
+  private List<CqlExecOperationResult> doExec(List<String> cqlStatements) throws MojoExecutionException
   {
-      CqlExecOperation cqlOp = new CqlExecOperation(rpcAddress, rpcPort, cqlStatement);
-      if ( StringUtils.isNotBlank(keyspace)) 
-      {
+      CqlExecOperation cqlOp = new CqlExecOperation(rpcAddress, rpcPort, cqlStatements);
+      if ( StringUtils.isNotBlank(keyspace)) {
           getLog().info("setting keyspace: " + keyspace);
           cqlOp.setKeyspace(keyspace);
       }
-      try 
-      {
+      try {
           Utils.executeThrift(cqlOp);
-      } catch (ThriftApiExecutionException taee) 
-      {
+      } catch (ThriftApiExecutionException taee) {
           throw new MojoExecutionException(taee.getMessage(), taee);
       }   
-      return cqlOp;
+      return cqlOp.getCqlExecOperationResults();
   }
   
-  class CqlExecOperation extends ThriftApiOperation implements Iterator<CqlRow> {
+  class CqlExecOperation extends ThriftApiOperation { 
+
+ 	  String cqlVersion; 
+ 	  List<String> cqlStatements; 
+ 	  List<CqlExecOperationResult> cqlExecOperationResults = new ArrayList<CqlExecOperationResult>(); 
+ 	 	
+ 	 	
+ 	  public CqlExecOperation(String rpcAddress, int rpcPort, String cqlVersion, List<String> cqlStatements) 
+ 	  { 
+ 	      super(rpcAddress, rpcPort); 
+ 	      this.cqlVersion = cqlVersion; 
+ 	      this.cqlStatements = cqlStatements; 
+ 	  } 
+ 	 	
+ 	  @Override 
+ 	  void executeOperation(Client client) throws ThriftApiExecutionException 
+ 	  { 
+ 	      try  
+ 	      { 
+ 	          if (StringUtils.isNotBlank(cqlVersion)) { 
+ 	              getLog().debug("Setting CQL Version: " + cqlVersion);
+ 	              client.set_cql_version(cqlVersion); 
+ 	          } 
+ 	  
+ 	          for (String cql : cqlStatements) { 
+ 	              if (StringUtils.isNotBlank(cql)){ 
+ 	                  getLog().debug("Executing CQL: " + cql); 
+ 	                  CqlResult result = client.execute_cql_query(ByteBufferUtil.bytes(cql), Compression.NONE); 
+ 	                  cqlExecOperationResults.add(new CqlExecOperationResult(result)); 
+ 	              } 
+ 	          } 
+ 	      } catch (Exception e)  
+ 	      { 
+ 	          throw new ThriftApiExecutionException(e); 
+ 	      } 
+ 	  } 
+ 	 	
+ 	  public List<CqlExecOperationResult> getCqlExecOperationResults() { 
+ 	      return cqlExecOperationResults; 
+ 	  } 
+  } 
+  
+  class CqlExecOperationResult implements Iterator<CqlRow> {
 
       CqlResult result;
-      final ByteBuffer statementBuf;
       CqlRow current;
       Iterator<CqlRow> rowIter;
 
-      public CqlExecOperation(String rpcAddress, int rpcPort, String cqlStatement)
+      public CqlExecOperationResult(CqlResult result)
       {
-          super(rpcAddress, rpcPort);
-          this.statementBuf = ByteBufferUtil.bytes(cqlStatement);
-      }
-
-      @Override
-      void executeOperation(Client client) throws ThriftApiExecutionException
-      {
-          try 
-          {
-              result = client.execute_cql_query(statementBuf, Compression.NONE);
-              rowIter = result.getRowsIterator();
-          } catch (Exception e) 
-          {
-              throw new ThriftApiExecutionException(e);
-          }
+          this.result = result;
+          this.rowIter = result.getRowsIterator();
       }
 
       @Override
