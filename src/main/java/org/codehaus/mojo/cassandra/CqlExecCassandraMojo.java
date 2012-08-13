@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Executes cql statements from maven.
@@ -34,11 +35,11 @@ import java.util.List;
  */
 public class CqlExecCassandraMojo extends AbstractCassandraMojo {
 
-	/** 
- 	 * The CQL version that the provided cqlScript or cqlStatement should be interpreted with 
- 	 * 
- 	 * @parameter expression="${cql.cqlVersion}" default-value="3.0.0" 
- 	 */ 
+	/**
+ 	 * The CQL version that the provided cqlScript or cqlStatement should be interpreted with
+ 	 *
+ 	 * @parameter expression="${cql.cqlVersion}" default-value="3.0.0"
+ 	 */
  	protected String cqlVersion;
 
     /**
@@ -79,6 +80,13 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
      * @parameter expression="${cql.comparator}"
      */
     protected String comparator = "BytesType";
+
+    /**
+     * Properties to substitute in CQL resource. (For any provided prop, any form like ${prop} in the CQL file
+     * will be substituted.)
+     * @parameter
+     */
+    private Properties filteringProperties;
 
     private AbstractType<?> comparatorVal;
     private AbstractType<?> keyValidatorVal;
@@ -156,15 +164,26 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
       {
           // TODO accept keyFormat, columnFormat, valueFormat
           // ^ are these relevant on file load?
-          List<CqlExecOperationResult> cqlOpResults = doExec(Arrays.asList(StringUtils.split(cqlStatement, ";"))); 
-          
+          final String substitutedCqlStatement = substituteFilteringProperties(cqlStatement);
+          List<CqlExecOperationResult> cqlOpResults = doExec(Arrays.asList(StringUtils.split(substitutedCqlStatement, ";")));
+
           printResults(cqlOpResults);
       }
   }
-  
-  /*
-   * Encapsulate print of CqlResult. Uses specified configuration options to format results
-   */
+
+    private String substituteFilteringProperties(String cql) {
+        String substituted = cql;
+        if (filteringProperties != null) {
+            for(String property : filteringProperties.stringPropertyNames()) {
+                substituted = substituted.replace("${" + property + "}", (String) filteringProperties.get(property));
+            }
+        }
+        return substituted;
+    }
+
+    /*
+    * Encapsulate print of CqlResult. Uses specified configuration options to format results
+    */
   private void printResults(List<CqlExecOperationResult> cqlOpResults)
   {
       // TODO fix ghetto formatting
