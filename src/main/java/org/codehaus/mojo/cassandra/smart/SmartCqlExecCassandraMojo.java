@@ -1,4 +1,4 @@
-package org.codehaus.mojo.cassandra;
+package org.codehaus.mojo.cassandra.smart;
 
 import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.db.marshal.AbstractType;
@@ -12,28 +12,27 @@ import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.codehaus.plexus.util.IOUtil;
+import org.codehaus.mojo.cassandra.AbstractCassandraMojo;
+import org.codehaus.mojo.cassandra.ThriftApiExecutionException;
+import org.codehaus.mojo.cassandra.ThriftApiOperation;
+import org.codehaus.mojo.cassandra.Utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Executes cql statements from maven.
+ * This is a Bazaarvoice-specific forked enhancement to {@link org.codehaus.mojo.cassandra.CqlExecCassandraMojo}.
  *
- * @author zznate
- * @goal cql-exec
+ * @author adixon
+ * @goal smart-cql-exec
  * @threadSafe
  * @phase pre-integration-test
  */
-public class CqlExecCassandraMojo extends AbstractCassandraMojo {
+public class SmartCqlExecCassandraMojo extends AbstractCassandraMojo {
 
 	/**
  	 * The CQL version that the provided cqlScript or cqlStatement should be interpreted with
@@ -50,18 +49,11 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
     protected String skipIfKeyspaceIsPresent;
 
     /**
-     * The CQL script which will be executed
+     * The CQL script(s) which will be executed.
      *
-     * @parameter expression="${cassandra.cql.script}" default-value="${basedir}/src/cassandra/cql/exec.cql"
+     * @parameter
      */
-    protected File cqlScript;
-
-    /**
-     * The CQL statement to execute singularly
-     *
-     * @parameter expression="${cql.statement}"
-     */
-    protected String cqlStatement;
+    protected List<CqlScript> cqlScripts;
 
     /**
      * Expected type of the column value
@@ -81,13 +73,6 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
      */
     protected String comparator = "BytesType";
 
-    /**
-     * Properties to substitute in CQL resource. (For any provided prop, any form like ${prop} in the CQL file
-     * will be substituted.)
-     * @parameter
-     */
-    private Properties filteringProperties;
-
     private AbstractType<?> comparatorVal;
     private AbstractType<?> keyValidatorVal;
     private AbstractType<?> defaultValidatorVal;
@@ -100,20 +85,7 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
         }
 
         if (StringUtils.isNotBlank(skipIfKeyspaceIsPresent)) {
-            // A keyspace was specified.  Look to see if it exists.  If so, return true.
-            final boolean[] exists = {false};
-            Utils.executeThrift(new ThriftApiOperation(rpcAddress, rpcPort) {
-                @Override
-                public void executeOperation(Client client) {
-                    try {
-                        client.describe_keyspace(skipIfKeyspaceIsPresent);
-                        exists[0] = true;
-                    } catch (Exception e) {
-                        // Assume describe failed because the keyspace doesn't exist
-                    }
-                }
-            });
-            if (exists[0]) {
+            if (keyspaceExists(skipIfKeyspaceIsPresent)) {
                 return true;
             }
         }
@@ -121,64 +93,51 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
         return false;
     }
 
-  @Override
-  public void execute() throws MojoExecutionException, MojoFailureException {
-      if (shouldSkip())
-      {
-          getLog().info("Skipping cassandra: cassandra.skip==true");
-          return;
-      }
-      try
-      {
-          comparatorVal = TypeParser.parse(comparator);
-          keyValidatorVal = TypeParser.parse(keyValidator);
-          defaultValidatorVal = TypeParser.parse(defaultValidator);
-
-      } catch (ConfigurationException e)
-      {
-          throw new MojoExecutionException("Could not parse comparator value: " + comparator, e);
-      }
-      if (cqlScript != null && cqlScript.isFile())
-      {
-          FileReader fr = null;
-          try
-          {
-              fr = new FileReader(cqlScript);
-              cqlStatement = IOUtil.toString(fr);
-          } catch (FileNotFoundException e)
-          {
-              throw new MojoExecutionException("Cql file '" + cqlScript + "' was deleted before I could read it", e);
-          } catch (IOException e)
-          {
-              throw new MojoExecutionException("Could not parse or load cql file", e);
-          } finally
-          {
-              IOUtil.close(fr);
-          }
-      }
-
-      if (StringUtils.isBlank(cqlStatement))
-      {
-          getLog().warn("No CQL provided. Nothing to do.");
-      } else
-      {
-          // TODO accept keyFormat, columnFormat, valueFormat
-          // ^ are these relevant on file load?
-          final String substitutedCqlStatement = substituteFilteringProperties(cqlStatement);
-          List<CqlExecOperationResult> cqlOpResults = doExec(Arrays.asList(StringUtils.split(substitutedCqlStatement, ";")));
-
-          printResults(cqlOpResults);
-      }
-  }
-
-    private String substituteFilteringProperties(String cql) {
-        String substituted = cql;
-        if (filteringProperties != null) {
-            for(String property : filteringProperties.stringPropertyNames()) {
-                substituted = substituted.replace("${" + property + "}", (String) filteringProperties.get(property));
+    private boolean keyspaceExists(final String keyspace)
+            throws MojoExecutionException {
+        // A keyspace was specified.  Look to see if it exists.  If so, return true.
+        final boolean[] exists = {false};
+        Utils.executeThrift(new ThriftApiOperation(rpcAddress, rpcPort) {
+            @Override
+            public void executeOperation(Client client) {
+                try {
+                    client.describe_keyspace(keyspace);
+                    exists[0] = true;
+                } catch (Exception e) {
+                    // Assume describe failed because the keyspace doesn't exist
+                }
             }
+        });
+        if (exists[0]) {
+            return true;
         }
-        return substituted;
+        return false;
+    }
+
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        if (shouldSkip()) {
+            getLog().info("Skipping cassandra: cassandra.skip==true");
+            return;
+        }
+        try {
+            comparatorVal = TypeParser.parse(comparator);
+            keyValidatorVal = TypeParser.parse(keyValidator);
+            defaultValidatorVal = TypeParser.parse(defaultValidator);
+
+        } catch (ConfigurationException e) {
+            throw new MojoExecutionException("Could not parse comparator value: " + comparator, e);
+        }
+
+        for (CqlScript script : cqlScripts) {
+            if (script.hasSkipIfKeyspaceIsPresent() && keyspaceExists(script.getSkipIfKeyspaceIsPresent())) {
+                getLog().info("'" + script.getSkipIfKeyspaceIsPresent() + "' exists; skipping " + script.getScript().getPath() + "...");
+                continue; // skip!
+            }
+            final String cql = script.toCqlString();
+            List<CqlExecOperationResult> cqlOpResults = doExec(Arrays.asList(StringUtils.split(cql, ";")));
+            printResults(cqlOpResults);
+        }
     }
 
     /*
