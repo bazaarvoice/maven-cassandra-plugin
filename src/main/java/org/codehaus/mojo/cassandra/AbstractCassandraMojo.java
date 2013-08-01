@@ -20,10 +20,8 @@ package org.codehaus.mojo.cassandra;
 
 import org.apache.cassandra.cli.CliMain;
 import org.apache.cassandra.tools.NodeCmd;
-
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.OS;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.ArtifactUtils;
 import org.apache.maven.execution.MavenSession;
@@ -42,7 +40,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -192,7 +189,7 @@ public abstract class AbstractCassandraMojo extends AbstractMojo
     /**
      * Port to listen to for receiving the stop command over
      *
-     * @parameter expression="${cassandra.stopPort}" default-value="8081"
+     * @parameter expression="${cassandra.stopPort}" default-value="7081"
      */
     protected int stopPort;
 
