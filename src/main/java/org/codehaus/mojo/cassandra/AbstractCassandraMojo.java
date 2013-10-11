@@ -586,6 +586,7 @@ public abstract class AbstractCassandraMojo extends AbstractMojo
             commandLine.addArgument("-Dcom.sun.management.jmxremote.ssl=false");
             commandLine.addArgument("-Dcom.sun.management.jmxremote.authenticate=false");
         }
+        commandLine.addArgument("-Djava.awt.headless=true");
         commandLine.addArgument("-jar");
         // It seems that java cannot handle quoted jar file names...
         commandLine.addArgument(new File(new File(cassandraDir, "bin"), "cassandra.jar").getAbsolutePath(), false);
@@ -603,6 +604,7 @@ public abstract class AbstractCassandraMojo extends AbstractMojo
     {
         createCassandraHome();
         CommandLine commandLine = newJavaCommandLine();
+        commandLine.addArgument("-Djava.awt.headless=true");
         commandLine.addArgument("-jar");
         // It seems that java cannot handle quoted jar file names...
         commandLine.addArgument(new File(new File(cassandraDir, "bin"), "cassandra-cli.jar").getAbsolutePath(), false);
@@ -627,6 +629,7 @@ public abstract class AbstractCassandraMojo extends AbstractMojo
     {
         createCassandraHome();
         CommandLine commandLine = newJavaCommandLine();
+        commandLine.addArgument("-Djava.awt.headless=true");
         commandLine.addArgument("-jar");
         // It seems that java cannot handle quoted jar file names...
         commandLine.addArgument(new File(new File(cassandraDir, "bin"), "nodetool.jar").getAbsolutePath(), false);
