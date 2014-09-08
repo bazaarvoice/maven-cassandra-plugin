@@ -1,8 +1,9 @@
 package org.codehaus.mojo.cassandra.smart;
 
-import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.db.marshal.AbstractType;
 import org.apache.cassandra.db.marshal.TypeParser;
+import org.apache.cassandra.exceptions.ConfigurationException;
+import org.apache.cassandra.exceptions.SyntaxException;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.Compression;
@@ -126,6 +127,8 @@ public class SmartCqlExecCassandraMojo extends AbstractCassandraMojo {
             defaultValidatorVal = TypeParser.parse(defaultValidator);
 
         } catch (ConfigurationException e) {
+            throw new MojoExecutionException("Could not parse comparator value: " + comparator, e);
+        } catch (SyntaxException e) {
             throw new MojoExecutionException("Could not parse comparator value: " + comparator, e);
         }
 
