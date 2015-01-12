@@ -7,6 +7,7 @@ import org.apache.cassandra.exceptions.SyntaxException;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.Compression;
+import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.CqlResult;
 import org.apache.cassandra.thrift.CqlRow;
 import org.apache.cassandra.utils.ByteBufferUtil;
@@ -249,13 +250,13 @@ public class CqlExecCassandraMojo extends AbstractCassandraMojo {
  	      { 
  	          if (StringUtils.isNotBlank(cqlVersion)) { 
  	              getLog().debug("Setting CQL Version: " + cqlVersion);
- 	              client.set_cql_version(cqlVersion); 
+ 	              client.set_cql_version(cqlVersion);
  	          } 
  	  
  	          for (String cql : cqlStatements) { 
  	              if (StringUtils.isNotBlank(cql)){ 
- 	                  getLog().debug("Executing CQL: " + cql); 
- 	                  CqlResult result = client.execute_cql_query(ByteBufferUtil.bytes(cql), Compression.NONE); 
+ 	                  getLog().debug("Executing CQL: " + cql);
+			  CqlResult result = client.execute_cql3_query(ByteBufferUtil.bytes(cql), Compression.NONE, ConsistencyLevel.ALL);
  	                  cqlExecOperationResults.add(new CqlExecOperationResult(result)); 
  	              } 
  	          } 
