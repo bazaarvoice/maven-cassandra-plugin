@@ -163,6 +163,13 @@ public abstract class AbstractCassandraMojo extends AbstractMojo
     protected int jmxPort;
 
     /**
+     * Port to listen to for native transport.
+     *
+     * @parameter expression="${cassandra.nativeTransportPort}" default-value="9042"
+     */
+    protected int nativeTransportPort;
+
+    /**
      * Address to bind to and tell other Cassandra nodes to connect to. You
      * <strong>must</strong> change this if you want multiple nodes to be able to
      * communicate!
@@ -433,6 +440,7 @@ public abstract class AbstractCassandraMojo extends AbstractMojo
         config.append("storage_port: ").append(storagePort).append("\n");
         config.append("rpc_address: ").append(rpcAddress).append("\n");
         config.append("rpc_port: ").append(rpcPort).append("\n");
+        config.append("native_transport_port: ").append(nativeTransportPort).append("\n");
         if (seeds != null) {
             config.append("seed_provider: ").append("\n");
             config.append("    - class_name: org.apache.cassandra.locator.SimpleSeedProvider").append("\n");
