@@ -40,6 +40,16 @@ under the License.
       <groupId>org.apache.cassandra</groupId>
       <artifactId>cassandra-all</artifactId>
       <version>@cassandraVersion@</version>
+      <exclusions>
+        <exclusion>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -53,11 +63,11 @@ under the License.
     <plugins>
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>2.5</version>
+        <version>@cleanPluginVersion@</version>
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>@compilerPluginVersion@</version>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
@@ -65,27 +75,27 @@ under the License.
       </plugin>
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.5</version>
+        <version>@deployPluginVersion@</version>
       </plugin>
       <plugin>
         <artifactId>maven-install-plugin</artifactId>
-        <version>2.3.1</version>
+        <version>@installPluginVersion@</version>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3.1</version>
+        <version>@jarPluginVersion@</version>
       </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>2.5</version>
+        <version>@resourcesPluginVersion@</version>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.9</version>
+        <version>@surefirePluginVersion@</version>
       </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.9</version>
+        <version>@surefirePluginVersion@</version>
         <executions>
           <execution>
             <goals>
@@ -94,6 +104,13 @@ under the License.
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <systemPropertyVariables>
+            <rpcPort>${cassandraPort}</rpcPort>
+            <storagePort>${cassandra.storagePort}</storagePort>
+            <stopPort>${cassandra.stopPort}</stopPort>
+          </systemPropertyVariables>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>@project.groupId@</groupId>
@@ -112,13 +129,51 @@ under the License.
             <goals>
               <goal>start</goal>
               <goal>load</goal>
+              <goal>cu-load</goal>
               <goal>stop</goal>
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>@log4jVersion@</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>@log4jVersion@</version>
+          </dependency>
+        </dependencies>
         <configuration>
           <loadAfterFirstStart>false</loadAfterFirstStart>
+          <cuLoadAfterFirstStart>false</cuLoadAfterFirstStart>
+          <rpcPort>${cassandraPort}</rpcPort>
+          <storagePort>${cassandra.storagePort}</storagePort>
+          <stopPort>${cassandra.stopPort}</stopPort>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>@buildHelperPluginVersion@</version>
+        <executions>
+          <execution>
+            <id>reserve-ports</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>reserve-network-port</goal>
+            </goals>
+            <configuration>
+              <portNames>
+                <portName>cassandraPort</portName>
+                <portName>cassandra.storagePort</portName>
+                <portName>cassandra.stopPort</portName>
+              </portNames>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

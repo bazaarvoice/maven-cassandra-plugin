@@ -18,6 +18,7 @@
  */
 package org.codehaus.mojo.cassandra;
 
+
 import org.apache.cassandra.service.CassandraDaemon;
 
 import java.io.IOException;

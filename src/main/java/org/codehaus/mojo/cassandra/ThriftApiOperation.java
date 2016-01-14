@@ -1,12 +1,16 @@
 package org.codehaus.mojo.cassandra;
 
 import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.InvalidRequestException;
+import org.apache.cassandra.thrift.SchemaDisagreementException;
+import org.apache.thrift.TException;
 
 public abstract class ThriftApiOperation {
   
   private String keyspace;
   private final String rpcAddress;
   private final int rpcPort;
+  private String cqlVersion = "2.0.0";
 
   public ThriftApiOperation(String rpcAddress, int rpcPort)
   {
@@ -14,7 +18,7 @@ public abstract class ThriftApiOperation {
       this.rpcPort = rpcPort;
   }
   
-  public abstract void executeOperation(Cassandra.Client client) throws ThriftApiExecutionException;
+  abstract void executeOperation(Cassandra.Client client) throws ThriftApiExecutionException;
 
   public String getKeyspace()
   {
@@ -37,6 +41,14 @@ public abstract class ThriftApiOperation {
       return rpcPort;
   }
 
+    public String getCqlVersion()
+    {
+        return cqlVersion;
+    }
 
+    public void setCqlVersion( String cqlVersion )
+    {
+        this.cqlVersion = cqlVersion;
+    }
 
 }
