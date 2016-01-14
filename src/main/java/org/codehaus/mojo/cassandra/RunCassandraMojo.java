@@ -18,13 +18,15 @@
  */
 package org.codehaus.mojo.cassandra;
 
-import org.apache.commons.exec.DefaultExecuteResultHandler;
-
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-
 import java.io.File;
 import java.io.IOException;
+
+import org.apache.commons.exec.DefaultExecuteResultHandler;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.cassandraunit.DataLoader;
+import org.cassandraunit.dataset.FileDataSet;
+import org.cassandraunit.dataset.ParseException;
 
 /**
  * Runs Cassandra in the foreground.
@@ -33,22 +35,9 @@ import java.io.IOException;
  * @goal run
  * @threadSafe
  */
-public class RunCassandraMojo extends AbstractCassandraMojo
+public class RunCassandraMojo
+    extends AbstractCqlLoadMojo
 {
-    /**
-     * The script to load.
-     *
-     * @parameter default-value="${basedir}/src/cassandra/cli/load.script"
-     */
-    protected File script;
-
-    /**
-     * Whether to ignore errors when loading the script.
-     *
-     * @parameter expression="${cassandra.load.failure.ignore}"
-     */
-    private boolean loadFailureIgnore;
-
     /**
      * When {@code true}, if this is a clean start then the load script will be applied automatically.
      *
@@ -57,73 +46,111 @@ public class RunCassandraMojo extends AbstractCassandraMojo
     private boolean loadAfterFirstStart;
 
     /**
+     * The CassandraUnit dataSet to load.
+     *
+     * @parameter default-value="${basedir}/src/test/resources/dataSet.xml"
+     * @since 1.2.1-2
+     */
+    protected File cuDataSet;
+
+    /**
+     * Whether to ignore errors when loading the script.
+     *
+     * @parameter expression="${cassandra.cu.load.failure.ignore}"
+     * @since 1.2.1-2
+     */
+    private boolean cuLoadFailureIgnore;
+
+    /**
+     * When {@code true}, if this is a clean start then the CassandraUnit dataSet will be applied automatically.
+     *
+     * @parameter expression="${cassandra.cu.load.after.first.start}" default-value="true"
+     * @since 1.2.1-2
+     */
+    private boolean cuLoadAfterFirstStart;
+
+    /**
      * {@inheritDoc}
      */
-    public void execute() throws MojoExecutionException, MojoFailureException
+    public void execute()
+        throws MojoExecutionException, MojoFailureException
     {
-        if (skip)
+        if ( skip )
         {
-            getLog().info("Skipping cassandra: cassandra.skip==true");
+            getLog().info( "Skipping cassandra: cassandra.skip==true" );
             return;
         }
         long timeStamp = System.currentTimeMillis();
         boolean isClean = !cassandraDir.isDirectory();
-        getLog().debug( (isClean ? "First start of Cassandra instance in " : "Re-using existing Cassandra instance in ")
-            + cassandraDir.getAbsolutePath());
+        getLog().debug(
+            ( isClean ? "First start of Cassandra instance in " : "Re-using existing Cassandra instance in " )
+                + cassandraDir.getAbsolutePath() );
         try
         {
-            DefaultExecuteResultHandler execHandler = Utils.startCassandraServer(cassandraDir,
-                    newServiceCommandLine(),
-                    createEnvironmentVars(), getLog());
-            try {
-                getLog().info("Waiting for Cassandra to start...");
-                Utils.waitUntilStarted(rpcAddress, rpcPort, 0, getLog());
+            DefaultExecuteResultHandler execHandler =
+                Utils.startCassandraServer( cassandraDir, newServiceCommandLine(), createEnvironmentVars(), getLog() );
+            try
+            {
+                getLog().info( "Waiting for Cassandra to start..." );
+                Utils.waitUntilStarted( rpcAddress, rpcPort, 0, getLog() );
 
-                if (isClean && loadAfterFirstStart && script != null && script.isFile()) {
-                    getLog().info("Running " + script + "...");
-                    int rv = Utils.runLoadScript(cassandraDir, newCliCommandLine("--file", script.getAbsolutePath()),
-                            createEnvironmentVars(), getLog());
-                    if (rv != 0)
+                if ( isClean && loadAfterFirstStart)
+                {
+                    execCqlFile();
+                }
+
+                if ( isClean && cuLoadAfterFirstStart && cuDataSet != null && cuDataSet.isFile() )
+                {
+                    getLog().info( "Loading CassandraUnit dataSet " + cuDataSet + "..." );
+                    try
                     {
-                        if (loadFailureIgnore)
+                        DataLoader dataLoader = new DataLoader( "cassandraUnitCluster", rpcAddress + ":" + rpcPort );
+                        dataLoader.load( new FileDataSet( cuDataSet.getAbsolutePath() ) );
+                    }
+                    catch ( ParseException e )
+                    {
+                        if ( cuLoadFailureIgnore )
                         {
-                            getLog().error("Command exited with error code " + rv + ". Ignoring as loadFailureIgnore is true");
+                            getLog().error( e.getMessage() + ". Ignoring as cuLoadFailureIgnore is true" );
                         }
                         else
                         {
-                            throw new MojoExecutionException("Command exited with error code " + rv);
+                            throw new MojoExecutionException( "Error while loading CassandraUnit dataSet", e );
                         }
-                    } else
-                    {
-                        getLog().info("Finished " + script + ".");
                     }
+                    getLog().info( "Finished " + cuDataSet + "." );
                 }
 
-                getLog().info("Cassandra started in " + ((System.currentTimeMillis() - timeStamp) / 100L) / 10.0 + "s");
+                getLog().info(
+                    "Cassandra started in " + ( ( System.currentTimeMillis() - timeStamp ) / 100L ) / 10.0 + "s" );
                 ConsoleScanner consoleScanner = new ConsoleScanner();
                 consoleScanner.start();
-                getLog().info("Hit ENTER on the console to stop Cassandra and continue the build.");
+                getLog().info( "Hit ENTER on the console to stop Cassandra and continue the build." );
                 try
                 {
                     consoleScanner.waitForFinished();
-                } catch (InterruptedException e)
+                }
+                catch ( InterruptedException e )
                 {
                     // ignore
                 }
-            } finally
+            }
+            finally
             {
                 Utils.stopCassandraServer(rpcAddress, rpcPort, listenAddress, stopPort, stopKey, getLog());
                 try
                 {
                     execHandler.waitFor();
-                } catch (InterruptedException e)
+                }
+                catch ( InterruptedException e )
                 {
                     // ignore
                 }
             }
-        } catch (IOException e)
+        }
+        catch ( IOException e )
         {
-            throw new MojoExecutionException(e.getLocalizedMessage(), e);
+            throw new MojoExecutionException( e.getLocalizedMessage(), e );
         }
     }
 }
