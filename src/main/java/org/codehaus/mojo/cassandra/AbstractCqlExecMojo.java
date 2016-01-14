@@ -95,8 +95,7 @@ public abstract class AbstractCqlExecMojo extends AbstractCassandraMojo
             setCqlVersion(cqlVersion);
         }
 
-        @Override
-        void executeOperation(Client client) throws ThriftApiExecutionException
+        @Override protected void executeOperation(Client client) throws ThriftApiExecutionException
         {
             for (String statement : statements)
             {
