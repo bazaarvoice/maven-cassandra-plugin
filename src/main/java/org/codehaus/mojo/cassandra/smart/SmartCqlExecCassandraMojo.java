@@ -187,7 +187,6 @@ public class SmartCqlExecCassandraMojo extends AbstractCassandraMojo {
         String substituted = cql;
         if (filteringProperties != null) {
             for (String key : filteringProperties.keySet()) {
-                System.out.println(key);
                 substituted = substituted.replace("${" + key + "}", filteringProperties.get(key));
             }
         }
