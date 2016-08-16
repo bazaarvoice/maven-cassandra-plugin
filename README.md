@@ -1,8 +1,8 @@
-# MojoHaus Cassandra Maven Plugin
+[![Build Status](https://travis-ci.org/bazaarvoice/maven-cassandra-plugin.svg?branch=master)](https://travis-ci.org/bazaarvoice/maven-cassandra-plugin)
 
-This is Bazaarvoice's fork of the [cassandra-maven-plugin](http://www.mojohaus.org/cassandra-maven-plugin/).
- 
-[![Build Status](https://travis-ci.org/mojohaus/cassandra-maven-plugin.svg?branch=master)](https://travis-ci.org/mojohaus/cassandra-maven-plugin)
+# Bazaarvoice Cassandra Maven Plugin
+
+This is the Bazaarvoice's fork of the [cassandra-maven-plugin](http://www.mojohaus.org/cassandra-maven-plugin/).
 
 ## Releasing
 
