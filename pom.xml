@@ -98,6 +98,8 @@ under the License.
 
     <scm>
         <connection>scm:git:git@github.com:bazaarvoice/maven-cassandra-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:bazaarvoice/maven-cassandra-plugin.git</developerConnection>
+        <url>scm:git:git@github.com:bazaarvoice/maven-cassandra-plugin.git</url>
     </scm>
 
     <issueManagement>
