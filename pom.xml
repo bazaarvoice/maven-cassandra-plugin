@@ -26,6 +26,7 @@ under the License.
         <groupId>com.bazaarvoice.commons</groupId>
         <artifactId>bv-opensource-super-pom</artifactId>
         <version>1.4</version>
+        <relativePath />
     </parent>
 
     <groupId>com.bazaarvoice.maven.plugins</groupId>
