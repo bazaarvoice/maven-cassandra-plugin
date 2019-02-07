@@ -2,12 +2,18 @@ package org.codehaus.mojo.cassandra;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.nio.charset.Charset;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.runtime.ANTLRStringStream;
+import org.antlr.runtime.CommonToken;
+import org.antlr.runtime.Token;
+import org.apache.cassandra.cql3.CqlLexer;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.Compression;
 import org.apache.cassandra.thrift.ConsistencyLevel;
@@ -27,10 +33,29 @@ public abstract class AbstractCqlExecMojo extends AbstractCassandraMojo
     /**
      * Version of CQL to use
      *
-     * @parameter expression="${cql.version}"
+     * @parameter property="cql.version"
      * @since 1.2.1-2
      */
-    private String cqlVersion = "2.0.0";
+    private String cqlVersion = "3.3.0";
+
+    /**
+     * Charset used when loading CQL files. If not specified the system default encoding will be used.
+     *
+     * @parameter property="cql.encoding"
+     * @since 3.6
+     */
+    protected String cqlEncoding = Charset.defaultCharset().name();
+
+    /**
+     * Should we use the CqlLexer when loading the cql file. This should be better than than the default behaviour
+     * which is to just split input on ; since it handles ; in comments and strings.
+     *
+     * It is not enabled by default since has not been extensively tested.
+     *
+     * @parameter default-value=false
+     * @since 3.7
+     */
+    protected boolean useCqlLexer = false;
 
     protected String readFile(File file) throws MojoExecutionException
     {
@@ -39,11 +64,11 @@ public abstract class AbstractCqlExecMojo extends AbstractCassandraMojo
             throw new MojoExecutionException("script " + file + " does not exist.");
         }
 
-        FileReader fr = null;
+        InputStreamReader r = null;
         try
         {
-            fr = new FileReader(file);
-            return IOUtil.toString(fr);
+            r = new InputStreamReader(new FileInputStream(file), cqlEncoding);
+            return IOUtil.toString(r);
         } catch (FileNotFoundException e)
         {
             throw new MojoExecutionException("Cql file '" + file + "' was deleted before I could read it", e);
@@ -52,7 +77,7 @@ public abstract class AbstractCqlExecMojo extends AbstractCassandraMojo
             throw new MojoExecutionException("Could not parse or load cql file", e);
         } finally
         {
-            IOUtil.close(fr);
+            IOUtil.close(r);
         }
     }
 
@@ -77,6 +102,42 @@ public abstract class AbstractCqlExecMojo extends AbstractCassandraMojo
         return results;
     }
 
+    /**
+     * Best effort to somewhat parse the cql input instead of just splitting on ; which
+     * breaks badly if you have ; in strings or comments.
+     * Parsing is done using the CqlLexer class
+     */
+    protected static String[] splitStatementsUsingCqlLexer(String statements) {
+        ANTLRStringStream stream = new ANTLRStringStream(statements);
+        CqlLexer lexer = new CqlLexer(stream);
+        ArrayList<String> statementList = new ArrayList<String>();
+        StringBuffer currentStatement = new StringBuffer();
+        // Not the prettiest code i ever wrote, but it gets the job done.
+        for (Token token = lexer.nextToken(); token.getType() != Token.EOF; token = lexer.nextToken()) {
+            if (token.getText().equals(";")) {
+                // when we meet a ; terminate current statement and prepare the next
+                currentStatement.append(";");
+                statementList.add(currentStatement.toString());
+                currentStatement = new StringBuffer();
+            } else if (token.getType() == CqlLexer.STRING_LITERAL) {
+                // If we meet a string we should quote it and escape any enclosed ' as ''
+                currentStatement.append("'");
+                // TODO: There must be a cassandra util method somewhere that escapes a string for sql
+                currentStatement.append(token.getText().replaceAll("'", "''"));
+                currentStatement.append("'");
+            } else if (token.getType() == CqlLexer.COMMENT) {
+                // skip
+            } else {
+                currentStatement.append(token.getText());
+            }
+        }
+        if (currentStatement.length() > 0 && currentStatement.toString().trim().length() > 0) {
+            statementList.add(currentStatement.toString());
+        }
+        return statementList.toArray(new String[statementList.size()]);
+    }
+
+
     private class CqlExecOperation extends ThriftApiOperation
     {
         private final List<CqlResult> results = new ArrayList<CqlResult>();
@@ -85,7 +146,12 @@ public abstract class AbstractCqlExecMojo extends AbstractCassandraMojo
         private CqlExecOperation(String statements)
         {
             super(rpcAddress, rpcPort);
-            this.statements = statements.split(";");
+            if (useCqlLexer) {
+                getLog().warn("Using CqlLexer has not been extensively tested");
+                this.statements = splitStatementsUsingCqlLexer(statements);
+            } else {
+                this.statements = statements.split(";");
+            }
             if (StringUtils.isNotBlank(keyspace))
             {
                 getLog().info("setting keyspace: " + keyspace);
@@ -95,12 +161,16 @@ public abstract class AbstractCqlExecMojo extends AbstractCassandraMojo
             setCqlVersion(cqlVersion);
         }
 
-        @Override protected void executeOperation(Client client) throws ThriftApiExecutionException
+        @Override
+        void executeOperation(Client client) throws ThriftApiExecutionException
         {
             for (String statement : statements)
             {
                 if (StringUtils.isNotBlank(statement))
                 {
+                    if (getLog().isDebugEnabled()) {
+                        getLog().debug("Executing cql statement: " + statement);
+                    }
                     results.add(executeStatement(client, statement));
                 }
             }

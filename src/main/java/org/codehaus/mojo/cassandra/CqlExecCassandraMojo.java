@@ -26,32 +26,32 @@ public class CqlExecCassandraMojo extends AbstractCqlExecMojo {
   /**
    * The CQL script which will be executed
    *
-   * @parameter expression="${cassandra.cql.script}" default-value="${basedir}/src/cassandra/cql/exec.cql"
+   * @parameter property="cassandra.cql.script" default-value="${basedir}/src/cassandra/cql/exec.cql"
    */
   protected File cqlScript;
 
   /**
    * The CQL statement to execute singularly
    *
-   * @parameter expression="${cql.statement}"
+   * @parameter property="cql.statement"
    */
   protected String cqlStatement;
 
   /**
    * Expected type of the column value
-   * @parameter expression="${cql.defaultValidator}"
+   * @parameter property="cql.defaultValidator"
    */
   protected String defaultValidator = "BytesType";
 
   /**
    * Expected type of the key
-   * @parameter expression="${cql.keyValidator}"
+   * @parameter property="cql.keyValidator"
    */
   protected String keyValidator = "BytesType";
 
   /**
    * Expected type of the column name
-   * @parameter expression="${cql.comparator}"
+   * @parameter property="cql.comparator"
    */
   protected String comparator = "BytesType";
 
@@ -96,19 +96,31 @@ public class CqlExecCassandraMojo extends AbstractCqlExecMojo {
       getLog().info("-----------------------------------------------");
       for (CqlResult result : results)
       {
-          for (CqlRow row : result.getRows())
-          {
-              getLog().info("Row key: "+keyValidatorVal.getString(row.key));
-              getLog().info("-----------------------------------------------");
-              for (Column column : row.getColumns() )
-              {
-                  getLog().info(" name: "+comparatorVal.getString(column.name));
-                  getLog().info(" value: "+defaultValidatorVal.getString(column.value));
-                  getLog().info("-----------------------------------------------");
-              }
-
+          switch (result.type) {
+              case VOID:
+                  // Void method so nothing to log
+                  break;
+              case INT:
+                  getLog().info("Number result: " + result.getNum());
+                  break;
+              case ROWS:
+                  printRows(result);
+                  break;
           }
       }
   }
+
+    private void printRows(CqlResult result) {
+        for (CqlRow row : result.getRows()) {
+            getLog().info("Row key: " + keyValidatorVal.getString(row.key));
+            getLog().info("-----------------------------------------------");
+            for (Column column : row.getColumns()) {
+                getLog().info(" name: " + comparatorVal.getString(column.name));
+                getLog().info(" value: " + defaultValidatorVal.getString(column.value));
+                getLog().info("-----------------------------------------------");
+            }
+
+        }
+    }
 
 }

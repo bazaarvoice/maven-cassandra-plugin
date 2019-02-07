@@ -76,7 +76,7 @@ public abstract class AbstractCassandraMojo
     /**
      * The directory containing generated classes.
      *
-     * @parameter expression="${project.build.outputDirectory}"
+     * @parameter property="project.build.outputDirectory"
      * @required
      */
     private File classesDirectory;
@@ -84,7 +84,7 @@ public abstract class AbstractCassandraMojo
     /**
      * The directory containing generated test classes.
      *
-     * @parameter expression="${project.build.testOutputDirectory}"
+     * @parameter property="project.build.testOutputDirectory"
      * @required
      */
     private File testClassesDirectory;
@@ -108,7 +108,7 @@ public abstract class AbstractCassandraMojo
     /**
      * Skip the execution.
      *
-     * @parameter expression="${cassandra.skip}" default-value="false"
+     * @parameter property="cassandra.skip" default-value="false"
      */
     protected boolean skip;
 
@@ -150,21 +150,21 @@ public abstract class AbstractCassandraMojo
     /**
      * Port to listen to for the RPC interface.
      *
-     * @parameter expression="${cassandra.rpcPort}" default-value="9160"
+     * @parameter property="cassandra.rpcPort" default-value="9160"
      */
     protected int rpcPort;
 
     /**
      * Port to listen to for the JMX interface.
      *
-     * @parameter expression="${cassandra.jmxPort}" default-value="7199"
+     * @parameter property="cassandra.jmxPort" default-value="7199"
      */
     protected int jmxPort;
 
     /**
      * Port on which the CQL native transport listens for clients.
      *
-     * @parameter expression="${cassandra.nativeTransportPort}" default-value="9042"
+     * @parameter property="cassandra.nativeTransportPort" default-value="9042"
      * 
      * @since 2.0.0-1
      */
@@ -174,7 +174,7 @@ public abstract class AbstractCassandraMojo
      * Enable or disable the native transport server. Currently, only the Thrift 
      * server is started by default because the native transport is considered beta.
      *
-     * @parameter expression="${cassandra.startNativeTransport}" default-value="false"
+     * @parameter property="cassandra.startNativeTransport" default-value="false"
      * 
      * @since 2.0.0-1
      */
@@ -200,35 +200,35 @@ public abstract class AbstractCassandraMojo
     /**
      * Port to listen to for the Storage interface.
      *
-     * @parameter expression="${cassandra.storagePort}" default-value="7000"
+     * @parameter property="cassandra.storagePort" default-value="7000"
      */
     protected int storagePort;
 
     /**
      * Port to listen to for receiving the stop command over
      *
-     * @parameter expression="${cassandra.stopPort}" default-value="8081"
+     * @parameter property="cassandra.stopPort" default-value="8081"
      */
     protected int stopPort;
 
     /**
      * Key to be provided when stopping cassandra
      *
-     * @parameter expression="${cassandra.stopKey}" default-value="cassandra-maven-plugin"
+     * @parameter property="cassandra.stopKey" default-value="cassandra-maven-plugin"
      */
     protected String stopKey;
 
     /**
      * Number of megabytes to limit the cassandra JVM to.
      *
-     * @parameter expression="${cassandra.maxMemory}" default-value="512"
+     * @parameter property="cassandra.maxMemory" default-value="512"
      */
     protected int maxMemory;
 
     /**
      * The keyspace against which individual operations will be executed
      *
-     * @parameter expression="${cassandra.keyspace}"
+     * @parameter property="cassandra.keyspace"
      */
     protected String keyspace;
 
@@ -239,6 +239,14 @@ public abstract class AbstractCassandraMojo
      * @since 1.2.1-2
      */
     protected Map<String, String> systemPropertyVariables;
+
+    /**
+     * Log level of cassandra process. Logging is performed via log4j2.
+     *
+     * @parameter default-value="ERROR"
+     * @since 3.5
+     */
+    protected String logLevel;
 
     /**
      * Create a jar with just a manifest containing a Main-Class entry for SurefireBooter and a Class-Path entry for
@@ -389,17 +397,17 @@ public abstract class AbstractCassandraMojo
             createCassandraYaml( cassandraYaml, data, commitlog, savedCaches, listenAddress, rpcAddress, initialToken,
                                  seeds );
         }
-        File log4jServerProperties = new File( conf, "log4j-server.properties" );
-        if ( Utils.shouldGenerateResource( project, log4jServerProperties ) )
+        File log4jServerConfig = new File( conf, "log4j-server.xml" );
+        if ( Utils.shouldGenerateResource( project, log4jServerConfig ) )
         {
-            getLog().debug( ( log4jServerProperties.isFile() ? "Updating " : "Creating " ) + log4jServerProperties );
-            FileUtils.copyURLToFile( getClass().getResource( "/log4j.properties" ), log4jServerProperties );
+            getLog().debug( ( log4jServerConfig.isFile() ? "Updating " : "Creating " ) + log4jServerConfig );
+            FileUtils.copyURLToFile( getClass().getResource("/log4j2.xml"), log4jServerConfig );
         }
-        File log4jClientProperties = new File( conf, "log4j-client.properties" );
-        if ( Utils.shouldGenerateResource( project, log4jClientProperties ) )
+        File log4jClientConfig = new File( conf, "log4j-client.xml" );
+        if ( Utils.shouldGenerateResource( project, log4jClientConfig ) )
         {
-            getLog().debug( ( log4jClientProperties.isFile() ? "Updating " : "Creating " ) + log4jClientProperties );
-            FileUtils.copyURLToFile( getClass().getResource( "/log4j.properties" ), log4jClientProperties );
+            getLog().debug( ( log4jClientConfig.isFile() ? "Updating " : "Creating " ) + log4jClientConfig );
+            FileUtils.copyURLToFile( getClass().getResource("/log4j2.xml"), log4jClientConfig );
         }
         File cassandraJar = new File( bin, "cassandra.jar" );
         if ( Utils.shouldGenerateResource( project, cassandraJar ) )
@@ -611,15 +619,20 @@ public abstract class AbstractCassandraMojo
         createCassandraHome( cassandraDir, listenAddress, rpcAddress, initialToken, seeds );
         CommandLine commandLine = newJavaCommandLine();
         commandLine.addArgument( "-Xmx" + maxMemory + "m" );
+        //Only value should be quoted so we have to do it ourselves explicitly and disable additional quotation of whole
+        //argument because it causes errors during launch. Also URLEncode.encode on value seems to work correctly too,
+        //it is done for log4j.configuration during toURL().toString() conversion.
+        commandLine.addArgument( "-Dcassandra.storagedir=" + org.apache.commons.exec.util.StringUtils.quoteArgument(cassandraDir.getAbsolutePath()), false);
         if ( stopKey != null && stopPort > 0 && stopPort < 65536 )
         {
             commandLine.addArgument( "-D" + CassandraMonitor.KEY_PROPERTY_NAME + "=" + stopKey );
             commandLine.addArgument( "-D" + CassandraMonitor.PORT_PROPERTY_NAME + "=" + stopPort );
             commandLine.addArgument( "-D" + CassandraMonitor.HOST_PROPERTY_NAME + "=" + listenAddress );
         }
-        commandLine.addArgument( "-Dlog4j.configuration=" + new File( new File( cassandraDir, "conf" ),
-                                                                      "log4j-server.properties" ).toURI().toURL().toString() );
+        commandLine.addArgument( "-Dlog4j.configurationFile=" + new File( new File( cassandraDir, "conf" ),
+                                                                      "log4j-server.xml" ).toURI().toURL().toString() );
         commandLine.addArgument( "-Dcom.sun.management.jmxremote=" + jmxRemoteEnabled );
+        commandLine.addArgument( "-DcassandraLogLevel=" + logLevel );
         if ( jmxRemoteEnabled )
         {
             commandLine.addArgument( "-Dcom.sun.management.jmxremote.port=" + jmxPort );
