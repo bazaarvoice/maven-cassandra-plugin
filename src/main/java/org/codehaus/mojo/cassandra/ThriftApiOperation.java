@@ -1,16 +1,13 @@
 package org.codehaus.mojo.cassandra;
 
 import org.apache.cassandra.thrift.Cassandra;
-import org.apache.cassandra.thrift.InvalidRequestException;
-import org.apache.cassandra.thrift.SchemaDisagreementException;
-import org.apache.thrift.TException;
 
 public abstract class ThriftApiOperation {
 
   private String keyspace;
   private final String rpcAddress;
   private final int rpcPort;
-  private String cqlVersion = "2.0.0";
+  private String cqlVersion = "3.4.0";
 
   public ThriftApiOperation(String rpcAddress, int rpcPort)
   {
