@@ -111,8 +111,9 @@ under the License.
     <properties>
         <mavenVersion>2.2.1</mavenVersion>
         <cassandraVersion>2.2.4</cassandraVersion>
-        <slf4j.version>1.7.12</slf4j.version>
+        <slf4jVersion>1.7.7</slf4jVersion>
         <log4jVersion>2.1</log4jVersion>
+        <commonsLoggingVersion>1.1.1</commonsLoggingVersion>
         <cleanPluginVersion>2.5</cleanPluginVersion>
         <compilerPluginVersion>3.8.1</compilerPluginVersion>
         <deployPluginVersion>2.7</deployPluginVersion>
@@ -144,14 +145,6 @@ under the License.
                     <exclusion>
                         <groupId>log4j</groupId>
                         <artifactId>log4j</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-classic</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -185,19 +178,18 @@ under the License.
                 <artifactId>guava</artifactId>
                 <version>18.0</version>
             </dependency>
-            <!-- this is instead of commons-logging -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
+                <version>1.7.12</version>
             </dependency>
+            <!-- this is instead of commons-logging -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>jcl-over-slf4j</artifactId>
-                <version>${slf4j.version}</version>
+                <version>${slf4jVersion}</version>
                 <scope>runtime</scope>
             </dependency>
-            <!-- this is instead of commons-logging -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-project</artifactId>
@@ -271,17 +263,29 @@ under the License.
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-container-default</artifactId>
                 <version>1.1.0</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-exec</artifactId>
                 <version>1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.shared</groupId>
+                <artifactId>maven-plugin-testing-harness</artifactId>
+                <version>1.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-interpolation</artifactId>
+                <version>1.13</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.cassandraunit</groupId>
@@ -299,23 +303,22 @@ under the License.
                 <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
             </dependency>
-
             <dependency>
-                <groupId>org.apache.maven.shared</groupId>
-                <artifactId>maven-plugin-testing-harness</artifactId>
-                <version>1.1</version>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${commonsLoggingVersion}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.codehaus.plexus</groupId>
-                <artifactId>plexus-interpolation</artifactId>
-                <version>1.13</version>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4jVersion}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4jVersion}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -451,17 +454,6 @@ under the License.
                                 <dependencyConvergence/>
                                 <requireUpperBoundDeps/>
                                 <banDuplicatePomDependencyVersions/>
-                                <bannedDependencies>
-                                    <excludes>
-                                        <!-- use org.slf4j:log4j-over-slf4j instead -->
-                                        <include>log4j:log4j</include>
-                                        <!-- use org.slf4j:jcl-over-slf4j instead -->
-                                        <exclude>commons-logging:commons-logging</exclude>
-                                        <!-- This will exclude any slf4j implementation, we use logback, witch natively supports slf4j -->
-<!--                                        <exclude>org.slf4j:*</exclude>-->
-                                    </excludes>
-
-                                </bannedDependencies>
                             </rules>
                         </configuration>
                         <goals>
