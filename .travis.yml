@@ -1,4 +1,4 @@
 language: java
 notifications:
   email: false
-jdk: openjdk7
+jdk: openjdk8
