@@ -13,7 +13,7 @@ import org.apache.cassandra.thrift.Compression;
 import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.CqlResult;
 import org.apache.cassandra.utils.ByteBufferUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.IOUtil;
 
@@ -30,7 +30,7 @@ public abstract class AbstractCqlExecMojo extends AbstractCassandraMojo
      * @parameter expression="${cql.version}"
      * @since 1.2.1-2
      */
-    private String cqlVersion = "2.0.0";
+    private String cqlVersion = "3.4.0";
 
     protected String readFile(File file) throws MojoExecutionException
     {
