@@ -136,10 +136,6 @@ under the License.
                 <version>${cassandraVersion}</version>
                 <exclusions>
                     <exclusion>
-                        <groupId>net.java.dev.jna</groupId>
-                        <artifactId>jna</artifactId>
-                    </exclusion>
-                    <exclusion>
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-log4j12</artifactId>
                     </exclusion>
