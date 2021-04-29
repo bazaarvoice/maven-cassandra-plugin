@@ -110,7 +110,7 @@ under the License.
 
     <properties>
         <mavenVersion>2.2.1</mavenVersion>
-        <cassandraVersion>2.2.4</cassandraVersion>
+        <cassandraVersion>2.2.19</cassandraVersion>
         <slf4jVersion>1.7.12</slf4jVersion>
         <log4jVersion>2.1</log4jVersion>
         <commonsLoggingVersion>1.1.1</commonsLoggingVersion>
@@ -123,6 +123,7 @@ under the License.
         <surefirePluginVersion>2.18.1</surefirePluginVersion>
         <dependencyPluginVersion>2.8</dependencyPluginVersion>
         <buildHelperPluginVersion>1.9</buildHelperPluginVersion>
+        <mavenPluginPluginVersion>3.6.0</mavenPluginPluginVersion>
 
         <java.version>1.8</java.version>
     </properties>
@@ -155,6 +156,11 @@ under the License.
                         <artifactId>logback-classic</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>4.1.0</version>
             </dependency>
             <dependency>
                 <groupId>org.yaml</groupId>
@@ -387,6 +393,11 @@ under the License.
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>${deployPluginVersion}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>${mavenPluginPluginVersion}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
