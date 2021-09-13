@@ -1,13 +1,12 @@
 package org.codehaus.mojo.cassandra;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.TimeoutException;
-
 import org.apache.cassandra.exceptions.UnavailableException;
 import org.apache.cassandra.service.StorageProxy;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Executes the truncate command against the specified keyspace. 
@@ -21,13 +20,13 @@ public class TruncateCassandraMojo extends AbstractCassandraMojo
 {
 
     /**
-     * @parameter expression="${cassandra.keyspace}"
+     * @parameter property="cassandra.keyspace"
      * @required 
      */
     protected String keyspace;
     
     /**
-     * @parameter expression="${cassandra.columnFamily}"
+     * @parameter property="cassandra.columnFamily"
      * @required 
      */
     protected String columnFamily;

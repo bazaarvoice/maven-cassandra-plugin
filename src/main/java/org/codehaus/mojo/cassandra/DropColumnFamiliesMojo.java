@@ -1,10 +1,7 @@
 package org.codehaus.mojo.cassandra;
 
-import org.apache.cassandra.thrift.SchemaDisagreementException;
-import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.thrift.TException;
 
 /**
  * Drop the specified ColumnFamilies or, if no arguments are given, 
@@ -19,7 +16,7 @@ public class DropColumnFamiliesMojo extends AbstractSchemaCassandraMojo {
     /**
      * The one or more comma-delimited ColumnFamilies against to be dropped. 
      * If not specified, the Keyspace will be dropped.
-     * @parameter expression="${cassandra.columnFamilies}"
+     * @parameter property="cassandra.columnFamilies"
      */
     protected String columnFamilies;
 

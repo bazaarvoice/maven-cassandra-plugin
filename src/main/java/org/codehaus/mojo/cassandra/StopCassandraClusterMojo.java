@@ -22,9 +22,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
-import java.io.File;
-import java.math.BigInteger;
-
 /**
  * Stops a background Cassandra instance.
  *
@@ -38,14 +35,14 @@ public class StopCassandraClusterMojo extends AbstractMojo
     /**
      * Skip the execution.
      *
-     * @parameter expression="${cassandra.skip}" default-value="false"
+     * @parameter property="cassandra.skip" default-value="false"
      */
     private boolean skip;
 
     /**
      * Port to send stop command over
      *
-     * @parameter expression="${cassandra.stopPort}" default-value="8081"
+     * @parameter property="cassandra.stopPort" default-value="8081"
      * @required
      */
     protected int stopPort;
@@ -53,7 +50,7 @@ public class StopCassandraClusterMojo extends AbstractMojo
     /**
      * Key to provide when stopping cassandra
      *
-     * @parameter expression="${cassandra.stopKey}" default-value="cassandra-maven-plugin"
+     * @parameter property="cassandra.stopKey" default-value="cassandra-maven-plugin"
      * @required
      */
     protected String stopKey;
@@ -68,14 +65,14 @@ public class StopCassandraClusterMojo extends AbstractMojo
     /**
      * Port to listen to for the RPC interface.
      *
-     * @parameter expression="${cassandra.rpcPort}" default-value="9160"
+     * @parameter property="cassandra.rpcPort" default-value="9160"
      */
     protected int rpcPort;
 
     /**
      * The number of nodes in the cluster.
      *
-     * @parameter expression="${cassandra.cluster.size}" default-value="4"
+     * @parameter property="cassandra.cluster.size" default-value="4"
      */
     private int clusterSize;
 
