@@ -3,7 +3,7 @@ package org.codehaus.mojo.cassandra;
 import org.apache.cassandra.thrift.Cassandra;
 
 public abstract class ThriftApiOperation {
-
+  
   private String keyspace;
   private final String rpcAddress;
   private final int rpcPort;
@@ -14,8 +14,8 @@ public abstract class ThriftApiOperation {
       this.rpcAddress = rpcAddress;
       this.rpcPort = rpcPort;
   }
-
-  protected abstract void executeOperation(Cassandra.Client client) throws ThriftApiExecutionException;
+  
+  abstract void executeOperation(Cassandra.Client client) throws ThriftApiExecutionException;
 
   public String getKeyspace()
   {

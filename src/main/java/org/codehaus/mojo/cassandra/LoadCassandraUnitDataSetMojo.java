@@ -18,13 +18,13 @@
  */
 package org.codehaus.mojo.cassandra;
 
-import java.io.File;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.cassandraunit.DataLoader;
 import org.cassandraunit.dataset.FileDataSet;
 import org.cassandraunit.dataset.ParseException;
+
+import java.io.File;
 
 /**
  * Loads a CassandraUnit DataSet into a Cassandra instance.
@@ -48,7 +48,7 @@ public class LoadCassandraUnitDataSetMojo
     /**
      * Whether to ignore errors when loading the dataSet.
      *
-     * @parameter expression="${cassandra.cuload.failure.ignore}"
+     * @parameter property="cassandra.cuload.failure.ignore"
      */
     private boolean cuLoadFailureIgnore;
 
