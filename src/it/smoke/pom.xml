@@ -40,16 +40,6 @@ under the License.
       <groupId>org.apache.cassandra</groupId>
       <artifactId>cassandra-all</artifactId>
       <version>@cassandraVersion@</version>
-<!--      <exclusions>-->
-<!--        <exclusion>-->
-<!--          <groupId>ch.qos.logback</groupId>-->
-<!--          <artifactId>logback-core</artifactId>-->
-<!--        </exclusion>-->
-<!--        <exclusion>-->
-<!--          <groupId>ch.qos.logback</groupId>-->
-<!--          <artifactId>logback-classic</artifactId>-->
-<!--        </exclusion>-->
-<!--      </exclusions>-->
     </dependency>
     <dependency>
       <groupId>org.apache.cassandra</groupId>
@@ -68,19 +58,6 @@ under the License.
       <version>1.0-3</version>
       <scope>test</scope>
     </dependency>
-
-    <!--    <dependency>
-          <groupId>org.apache.logging.log4j</groupId>
-          <artifactId>log4j-slf4j-impl</artifactId>
-          <version>@log4jVersion@</version>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.apache.logging.log4j</groupId>
-          <artifactId>log4j-core</artifactId>
-          <version>@log4jVersion@</version>
-          <scope>test</scope>
-        </dependency>-->
   </dependencies>
 
   <build>
@@ -159,16 +136,6 @@ under the License.
           </execution>
         </executions>
         <dependencies>
-   <!--       <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>@log4jVersion@</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>@log4jVersion@</version>
-          </dependency>-->
         </dependencies>
         <configuration>
           <loadAfterFirstStart>false</loadAfterFirstStart>
