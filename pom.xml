@@ -31,7 +31,7 @@ under the License.
 
     <groupId>com.bazaarvoice.maven.plugins</groupId>
     <artifactId>cassandra-maven-plugin</artifactId>
-    <version>3.0.25.2-SNAPSHOT</version>
+    <version>3.11.12.1-RC1</version>
     <packaging>maven-plugin</packaging>
 
     <name>BV Customized Version of Mojo's Cassandra Maven Plugin</name>
@@ -100,7 +100,7 @@ under the License.
         <connection>scm:git:git@github.com:bazaarvoice/maven-cassandra-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:bazaarvoice/maven-cassandra-plugin.git</developerConnection>
         <url>scm:git:git@github.com:bazaarvoice/maven-cassandra-plugin.git</url>
-      <tag>HEAD</tag>
+      <tag>cassandra-maven-plugin-3.11.12.1-RC1</tag>
   </scm>
 
     <issueManagement>
