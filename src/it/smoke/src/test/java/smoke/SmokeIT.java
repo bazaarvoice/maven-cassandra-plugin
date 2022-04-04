@@ -29,24 +29,20 @@ import org.junit.Test;
 import java.util.AbstractMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-import static org.junit.matchers.JUnitMatchers.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.hasItem;
 
-public class SmokeIT
-{
+public class SmokeIT {
     @Test
-    public void connectToKeyspace() throws Exception
-    {
-        TTransport tr = new TFramedTransport(new TSocket("localhost", Integer.getInteger( "rpcPort", 9160 )));
+    public void connectToKeyspace() throws Exception {
+        TTransport tr = new TFramedTransport(new TSocket("localhost", Integer.getInteger("rpcPort", 9160)));
         TProtocol proto = new TBinaryProtocol(tr);
         Cassandra.Client client = new Cassandra.Client(proto);
         tr.open();
-        try
-        {
+        try {
             assertThat(client.describe_keyspace("testkeyspace").getStrategy_options().entrySet(),
-                    hasItem((Map.Entry<String, String>)new AbstractMap.SimpleEntry<String,String>("replication_factor","1")));
-        } finally
-        {
+                    hasItem((Map.Entry<String, String>) new AbstractMap.SimpleEntry<>("replication_factor", "1")));
+        } finally {
             tr.close();
         }
     }
