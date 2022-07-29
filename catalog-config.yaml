@@ -15,6 +15,6 @@ metadata:
     - cassandra
 spec:
   type: library
-  system: prr
+  system: emodb
   lifecycle: production
   owner: data-storage
