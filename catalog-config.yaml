@@ -10,7 +10,7 @@ metadata:
       title: Github docs
       icon: docs
   tags:
-    - prr
+    - emodb
     - java
     - cassandra
 spec:
