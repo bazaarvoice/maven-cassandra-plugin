@@ -14,7 +14,7 @@ metadata:
     - java
     - cassandra
 spec:
-  type: library
+  type: maven-plugin
   system: emodb
   lifecycle: production
   owner: data-storage
