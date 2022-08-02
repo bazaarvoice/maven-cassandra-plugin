@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: maven-cassandra-plugin
+  description: Cassandra Maven Plugin
+  annotations:
+    backstage.io/techdocs-ref: 'url:https://github.com/bazaarvoice/maven-cassandra-plugin/blob/master/README.md'
+  links:
+    - url: https://github.com/bazaarvoice/maven-cassandra-plugin/blob/master/README.md
+      title: Github docs
+      icon: docs
+  tags:
+    - emodb
+    - java
+    - cassandra
+spec:
+  type: maven-plugin
+  system: emodb
+  lifecycle: production
+  owner: data-storage
