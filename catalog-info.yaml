@@ -4,9 +4,9 @@ metadata:
   name: maven-cassandra-plugin
   description: Cassandra Maven Plugin
   annotations:
-    backstage.io/techdocs-ref: 'url:https://github.com/bazaarvoice/maven-cassandra-plugin/blob/master/README.md'
+    backstage.io/techdocs-ref: 'url:https://github.com/bazaarvoice/maven-cassandra-plugin/blob/main/README.md'
   links:
-    - url: https://github.com/bazaarvoice/maven-cassandra-plugin/blob/master/README.md
+    - url: https://github.com/bazaarvoice/maven-cassandra-plugin/blob/main/README.md
       title: Github docs
       icon: docs
   tags:
