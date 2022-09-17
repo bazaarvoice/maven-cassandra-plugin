@@ -26,7 +26,7 @@ under the License.
         <groupId>com.bazaarvoice.commons</groupId>
         <artifactId>bv-opensource-super-pom</artifactId>
         <version>1.12</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>com.bazaarvoice.maven.plugins</groupId>
@@ -200,7 +200,7 @@ under the License.
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.4</version>
+                <version>3.12.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -538,9 +538,9 @@ under the License.
                                     <version>[${java.version},)</version>
                                     <message>requires Java ${java.version}</message>
                                 </requireJavaVersion>
-                                <dependencyConvergence />
-                                <requireUpperBoundDeps />
-                                <banDuplicatePomDependencyVersions />
+                                <dependencyConvergence/>
+                                <requireUpperBoundDeps/>
+                                <banDuplicatePomDependencyVersions/>
                             </rules>
                         </configuration>
                         <goals>
