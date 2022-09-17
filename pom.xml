@@ -26,7 +26,7 @@ under the License.
         <groupId>com.bazaarvoice.commons</groupId>
         <artifactId>bv-opensource-super-pom</artifactId>
         <version>1.12</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>com.bazaarvoice.maven.plugins</groupId>
@@ -311,7 +311,7 @@ under the License.
             <dependency>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-container-default</artifactId>
-                <version>1.1.0</version>
+                <version>1.7.1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>log4j</groupId>
@@ -538,9 +538,9 @@ under the License.
                                     <version>[${java.version},)</version>
                                     <message>requires Java ${java.version}</message>
                                 </requireJavaVersion>
-                                <dependencyConvergence />
-                                <requireUpperBoundDeps />
-                                <banDuplicatePomDependencyVersions />
+                                <dependencyConvergence/>
+                                <requireUpperBoundDeps/>
+                                <banDuplicatePomDependencyVersions/>
                             </rules>
                         </configuration>
                         <goals>
