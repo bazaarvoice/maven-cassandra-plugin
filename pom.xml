@@ -26,7 +26,7 @@ under the License.
         <groupId>com.bazaarvoice.commons</groupId>
         <artifactId>bv-opensource-super-pom</artifactId>
         <version>1.12</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>com.bazaarvoice.maven.plugins</groupId>
@@ -109,8 +109,8 @@ under the License.
     </issueManagement>
 
     <properties>
-        <mavenVersion>2.2.1</mavenVersion>
-        <cassandraVersion>3.11.12</cassandraVersion>
+        <mavenVersion>3.5.0</mavenVersion>
+        <cassandraVersion>4.0.0</cassandraVersion>
         <slf4jVersion>1.7.32</slf4jVersion>
         <logback.version>1.2.9</logback.version>
         <cleanPluginVersion>3.1.0</cleanPluginVersion>
@@ -165,12 +165,12 @@ under the License.
             <dependency>
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
-                <version>1.26</version>
+                <version>1.32</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.thrift</groupId>
                 <artifactId>libthrift</artifactId>
-                <version>0.12.0</version>
+                <version>0.16.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -301,7 +301,7 @@ under the License.
             <dependency>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-utils</artifactId>
-                <version>3.0.22</version>
+                <version>3.0.24</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.plexus</groupId>
@@ -311,7 +311,7 @@ under the License.
             <dependency>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-container-default</artifactId>
-                <version>1.1.0</version>
+                <version>2.0.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>log4j</groupId>
@@ -359,7 +359,7 @@ under the License.
             <dependency>
                 <groupId>org.cassandraunit</groupId>
                 <artifactId>cassandra-unit</artifactId>
-                <version>1.0.3.1</version>
+                <version>2.1.9.2</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
@@ -538,9 +538,9 @@ under the License.
                                     <version>[${java.version},)</version>
                                     <message>requires Java ${java.version}</message>
                                 </requireJavaVersion>
-                                <dependencyConvergence />
-                                <requireUpperBoundDeps />
-                                <banDuplicatePomDependencyVersions />
+                                <dependencyConvergence/>
+                                <requireUpperBoundDeps/>
+                                <banDuplicatePomDependencyVersions/>
                             </rules>
                         </configuration>
                         <goals>
