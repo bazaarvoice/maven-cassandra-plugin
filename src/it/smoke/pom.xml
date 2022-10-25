@@ -160,11 +160,11 @@ under the License.
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>@surefirePluginVersion@</version>
+        <version>@maven-surefire-plugin.version@</version>
       </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>@surefirePluginVersion@</version>
+        <version>@maven-surefire-plugin.version@</version>
         <executions>
           <execution>
             <goals>
