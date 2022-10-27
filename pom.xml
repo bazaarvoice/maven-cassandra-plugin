@@ -29,6 +29,14 @@ under the License.
         <relativePath />
     </parent>
 
+    <repositories>
+        <repository>
+            <id>Central Maven repository</id>
+            <name>Central Maven repository https</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
+
     <groupId>com.bazaarvoice.maven.plugins</groupId>
     <artifactId>cassandra-maven-plugin</artifactId>
     <version>3.11.12.2-SNAPSHOT</version>
