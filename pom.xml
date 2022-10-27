@@ -122,10 +122,6 @@ under the License.
         <dependencyPluginVersion>3.3.0</dependencyPluginVersion>
         <buildHelperPluginVersion>3.3.0</buildHelperPluginVersion>
         <mavenPluginPluginVersion>3.6.0</mavenPluginPluginVersion>
-        <sonar.projectKey>bazaarvoice_maven-cassandra-plugin</sonar.projectKey>
-        <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
-        <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
-        <jacoco.version>0.8.8</jacoco.version>
         <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
 
         <java.version>1.8</java.version>
@@ -554,7 +550,6 @@ under the License.
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <argLine>@{argLine} -Dfile.encoding=UTF-8 -Djava.awt.headless=true</argLine>
                     <excludes>
                         <!--
                             Exclude the Integration Tests; see also
@@ -563,26 +558,6 @@ under the License.
                         <exclude>test/integration/**</exclude>
                     </excludes>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-                <executions>
-                    <execution>
-                        <id>pre-unit-test</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>post-unit-test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
         <pluginManagement>
