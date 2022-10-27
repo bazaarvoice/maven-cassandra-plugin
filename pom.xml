@@ -110,7 +110,7 @@ under the License.
 
     <properties>
         <mavenVersion>2.2.1</mavenVersion>
-        <cassandraVersion>3.11.13</cassandraVersion>
+        <cassandraVersion>3.11.12</cassandraVersion>
         <slf4jVersion>1.7.32</slf4jVersion>
         <logback.version>1.2.9</logback.version>
         <cleanPluginVersion>3.1.0</cleanPluginVersion>
@@ -370,13 +370,8 @@ under the License.
             </dependency>
 
             <dependency>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-invoker-plugin</artifactId>
-                <version>3.3.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <groupId>com.addthis.metrics</groupId>
+                <artifactId>reporter-config3</artifactId>
                 <version>3.2.2</version>
             </dependency>
         </dependencies>
