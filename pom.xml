@@ -110,7 +110,7 @@ under the License.
 
     <properties>
         <mavenVersion>2.2.1</mavenVersion>
-        <cassandraVersion>3.11.12</cassandraVersion>
+        <cassandraVersion>3.11.13</cassandraVersion>
         <slf4jVersion>1.7.32</slf4jVersion>
         <logback.version>1.2.9</logback.version>
         <cleanPluginVersion>3.1.0</cleanPluginVersion>
@@ -124,6 +124,7 @@ under the License.
         <mavenPluginPluginVersion>3.6.0</mavenPluginPluginVersion>
         <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
 
+        <skipDependencyChecks>false</skipDependencyChecks>
         <java.version>1.8</java.version>
     </properties>
 
@@ -366,6 +367,17 @@ under the License.
                         <artifactId>cassandra-all</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>3.3.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.2.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
