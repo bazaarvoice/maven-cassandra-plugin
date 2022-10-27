@@ -31,9 +31,8 @@ under the License.
 
     <repositories>
         <repository>
-            <id>Central Maven repository</id>
-            <name>Central Maven repository https</name>
-            <url>https://repo.maven.apache.org/maven2</url>
+            <id>mavenCentral</id>
+            <url>https://repo1.maven.org/maven2/</url>
         </repository>
     </repositories>
 
