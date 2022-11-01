@@ -20,6 +20,8 @@ package org.codehaus.mojo.cassandra;
 
 
 import org.apache.cassandra.service.CassandraDaemon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,6 +37,7 @@ import java.net.Socket;
  */
 public class CassandraMonitor extends Thread
 {
+    private static final Logger logger = LoggerFactory.getLogger(CassandraMonitor.class);
     public static final String HOST_PROPERTY_NAME = "STOP.HOST";
 
     public static final String PORT_PROPERTY_NAME = "STOP.PORT";
@@ -109,7 +112,7 @@ public class CassandraMonitor extends Thread
                 }
             } catch (IOException e)
             {
-                e.printStackTrace();
+                logger.error(e.toString());
             } finally
             {
                 if (socket != null)
