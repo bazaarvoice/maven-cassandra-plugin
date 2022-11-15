@@ -36,6 +36,13 @@ under the License.
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>mavenCentral</id>
+      <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.cassandra</groupId>
@@ -68,7 +75,7 @@ under the License.
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpcore</artifactId>
-      <version>4.4.10</version>
+      <version>4.4.15</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cassandra</groupId>
@@ -160,11 +167,11 @@ under the License.
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>@surefirePluginVersion@</version>
+        <version>@maven-surefire-plugin.version@</version>
       </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>@surefirePluginVersion@</version>
+        <version>@maven-surefire-plugin.version@</version>
         <executions>
           <execution>
             <goals>
