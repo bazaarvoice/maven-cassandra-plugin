@@ -109,8 +109,8 @@ under the License.
     </issueManagement>
 
     <properties>
-        <mavenVersion>2.2.1</mavenVersion>
-        <cassandraVersion>3.11.14</cassandraVersion>
+        <mavenVersion>3.0</mavenVersion>
+        <cassandraVersion>4.0.0</cassandraVersion>
         <slf4jVersion>1.7.36</slf4jVersion>
         <logback.version>1.2.9</logback.version>
         <cleanPluginVersion>3.1.0</cleanPluginVersion>
@@ -167,7 +167,7 @@ under the License.
             <dependency>
                 <groupId>org.apache.thrift</groupId>
                 <artifactId>libthrift</artifactId>
-                <version>0.12.0</version>
+                <version>0.17.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -356,7 +356,7 @@ under the License.
             <dependency>
                 <groupId>org.cassandraunit</groupId>
                 <artifactId>cassandra-unit</artifactId>
-                <version>1.0.3.1</version>
+                <version>1.1.0.1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
